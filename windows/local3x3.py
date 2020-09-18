@@ -290,5 +290,8 @@ def local():
     #spaghetti code launch
     start(master,pl1box,pl2box)
     master.mainloop()
+    
+    if menureturn == True:
+          menu1.menu()
 #local()#remove this comment to make it work alone
 
