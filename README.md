@@ -1,5 +1,5 @@
 # tkinter-tic-tac-toe  
- thinker based tic-tac-toe  
+ tkinter based tic-tac-toe  
  
  Features currently supported  
  *local multiplayer  
