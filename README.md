@@ -1,5 +1,5 @@
 # tkinter-tic-tac-toe  
- tkinter based tic-tac-toe  
+ tkinter based tic-tac-toe(for relase i used pyinstaller)   
  
  Features currently supported  
  *local multiplayer  
