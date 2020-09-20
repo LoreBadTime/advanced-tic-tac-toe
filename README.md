@@ -5,7 +5,7 @@
  *local multiplayer  
  *Battle against a simple AI(only attack the AI)  
  *customizable colors(player and tab background)  
- *counter with afiilated player colors  
+ *counter with player colors  
  (WIP)  
  *online play  
  *full hard AI with different levels  
