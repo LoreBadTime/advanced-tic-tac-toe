@@ -1,7 +1,6 @@
 #By LoreBadTime,some import are useless(now)
 #a little precisation,buttons here are unique,they are only a UI thing,the main process is stored in the callback
-import time, sys, traceback, os ,socket,random,menu1
-from varname import nameof
+import time,random,menu1
 from tkinter import *
 import tkinter as tk
 from itertools import permutations

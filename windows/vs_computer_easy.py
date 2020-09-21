@@ -1,6 +1,6 @@
 #By LoreBadTime,some import are useless(now)
 #a little precisation,buttons here are unique,they are only a UI thing,the main process is stored in the callback
-import time, sys, traceback, os ,socket,random,menu1
+import time,random,menu1
 from numpy.random import randint
 from varname import nameof
 from tkinter import *

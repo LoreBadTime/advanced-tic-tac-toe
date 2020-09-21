@@ -7,7 +7,7 @@ import tkinter as tk
 from itertools import permutations
 
 global co,Vittoria,num,colorv,pl1vitt,pl2vitt,turn,player1,player2,menureturn
-#game
+#game variables
 
 player1=None
 player2=None
@@ -42,7 +42,7 @@ comb6 = ((1,8),(1,6),(3,4),(3,8),(7,2),(7,6),(9,2),(9,4))
 comb7 = ((2,6),(6,8),(8,4),(4,2))
 win = [(1,2,3),(4,5,6),(7,8,9),(1,4,7),(2,5,8),(3,6,9),(1,5,9),(3,5,7)]
 #import play
-def vsAIh():
+def vsAIn():
      global menureturn
      menureturn = False  
      
@@ -91,76 +91,7 @@ def vsAIh():
                  cont = cont + 1
                  AI = []
                  strategy = True
-                 if cont < 9:#now there are only specific cases
-                      if cont == 1:
-                           if check(comb,num) == True:
-                                AI.append(5)
-                           elif num == 5:
-                                AI.append(random.choice(com))
-                           else:
-                                AI.append(randint(1, 9, 1))
-                                while winck(pl1,AI) == True  or winck(pl2,AI) == True :   
-                                       AI.append(randint(1, 9, 1))
-                           strategy = False
-                      elif cont == 3 and (winck(pl1list,comb7) == True or winck(pl1list,comb6) == True or winck(pl1list,comb3) == True or winck(pl1list,comb5) == True): 
-                           if winck(pl1list,comb3) == True:
-                                AI.append(random.choice(comb1))
-                                 
-                           elif winck(pl1list,comb5) == True:
-                                if check(pl1list,comb5[0]) == True:
-                                     AI.append(9)
-                                     if winck(pl1,AI) == True or winck(pl2,AI) == True:
-                                          AI.remove(9)
-                                          AI.append(3)
-                                elif check(pl1list,comb5[1]) == True:
-                                     AI.append(1)
-                                     if winck(pl1,AI) == True or winck(pl2,AI) == True:
-                                          AI.remove(1)
-                                          AI.append(7)
-                                elif check(pl1list,comb5[2]) == True:
-                                     AI.append(7)
-                                     if winck(pl1,AI) == True or winck(pl2,AI) == True:
-                                          AI.remove(7)
-                                          AI.append(9)
-                                elif check(pl1list,comb5[3]) == True:
-                                     AI.append(3)
-                                     if winck(pl1,AI) == True or winck(pl2,AI) == True:
-                                          AI.append(1)
-                                          AI.remove(3)
-                             
-                           elif winck(pl1list,comb7) == True:
-                                if check(pl1list,comb7[0]) == True:
-                                     AI.append(3)
-                                elif check(pl1list,comb7[1]) == True:
-                                     AI.append(9)
-                                elif check(pl1list,comb7[2]) == True:
-                                     AI.append(7)
-                                elif check(pl1list,comb7[3]) == True:
-                                     AI.append(1)
-
-                                    
-                           elif winck(pl1list,comb6) == True:
-                                if check(pl1list,comb6[0]) == True or check(pl1list,comb6[4]) == True :
-                                     AI.append(4)
-                                elif check(pl1list,comb6[1]) == True or check(pl1list,comb6[2]) == True:
-                                     AI.append(2)
-                                elif check(pl1list,comb6[3]) == True or check(pl1list,comb6[6]) == True :
-                                     AI.append(6)
-                                elif check(pl1list,comb6[5]) == True or check(pl1list,comb6[7]) == True:
-                                     AI.append(8)
-                                
-                                combinations = True
-                           
-                      elif cont == 5 and combinations == True:
-                           
-                           if check(pl1list,comb6[0]) == True or check(pl1list,comb6[1]) == True :
-                                AI.append(9)
-                           elif check(pl1list,comb6[2]) == True or check(pl1list,comb6[3]) == True:
-                                AI.append(7)
-                           elif check(pl1list,comb6[4]) == True or check(pl1list,comb6[5]) == True:
-                                AI.append(3)
-                           elif check(pl1list,comb6[6]) == True or check(pl1list,comb6[7]) == True :
-                                AI.append(1)    
+                 if cont < 9:#now there are only specific cases   
                       if (winck(comb2,pl1list) == True or winck(comb2,pl2list) == True) and strategy == True :
                           speedwrite(0,3)
                           speedwrite(1,2)
@@ -225,9 +156,10 @@ def vsAIh():
                       else:
                            if cont < 9:
                                 while check(pl1,AI) == True or check(pl2,AI) == True or AI == []:
-
                                        AI = int(randint(1, 9, 1))
                                        print(AI,"casual2")
+                           else:
+                                pass
                       
                       pl2.append(AI)
                       cont = cont + 1
@@ -305,7 +237,7 @@ def vsAIh():
                      sos.grid(column=3,row=0)
                      if turn % 2 == 0:
                              pl1vitt=pl1vitt + 1 #you shouldn't touch this,it will break the counter
-                             sos.insert(tk.END, "this shouldn't have happened,you won?are you an hacker?,if not please report the combination to github page")
+                             sos.insert(tk.END, "you won!")
                      try:    #used this try/except since all the code stop executing if win window get closed
                              Flashyflash(sos)
                      except:
@@ -337,7 +269,7 @@ def vsAIh():
              if co == 0:
                  co = -2
                  loose = tk.Toplevel()
-                 loose.title("loosers")
+                 loose.title("looser")
                  txtloose = tk.Text(loose, height=3,width=25)
                  txtloose.insert(tk.END, "try again")
                  txtloose.grid(column=3,row=0)
@@ -511,5 +443,5 @@ def vsAIh():
 
 
      
-#vsAIh()#remove this to make it work alone
+#vsAIn()#remove this to make it work alone
 
