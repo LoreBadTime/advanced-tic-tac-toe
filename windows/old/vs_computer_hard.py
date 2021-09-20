@@ -1,6 +1,6 @@
 #By LoreBadTime,some import are useless(now)
 #a little precisation,buttons here are unique,they are only a UI thing,the main process is stored in the callback
-import time,random,numpy,menu1
+import time,random,numpy
 from numpy.random import randint
 from tkinter import *
 import tkinter as tk
@@ -43,7 +43,7 @@ comb7 = ((2,6),(6,8),(8,4),(4,2))
 win = [(1,2,3),(4,5,6),(7,8,9),(1,4,7),(2,5,8),(3,6,9),(1,5,9),(3,5,7)]
 #import play
 def vsAIh():
-     global menureturn
+     global menureturn,Restart
      menureturn = False  
      
      #just start tk
@@ -52,6 +52,12 @@ def vsAIh():
      master.configure(background='black')
      master.geometry("204x130")
      master.resizable(False,False)
+     Restart = Button (master,text="Restart", command= lambda :start(master,pl1box,pl2box) ,state=ACTIVE,background='black',activebackground='black',foreground='white',activeforeground='white')
+     Restart.place(height=20, width=50 ,y=15, x=200)#the restart button
+     pl1box = Button(master, text=pl1vitt,foreground='cyan',disabledforeground='cyan',state=DISABLED,activebackground='black',background='black' )
+     pl1box.place(height=30 ,width=30,y=169, x=15)
+     pl2box = Button(master, text=pl2vitt,foreground='red',disabledforeground='red',state=DISABLED,activebackground='black',background='black' )
+     pl2box.place(height=30 ,width=30,y=169, x=130)
      # count turn and configure the button text #Change AI to pl2
      def speedwrite(numlist,anothernum):#this will check for win tryes fo both AI and player
           global AI,pl1list,pl2list,trick,ptot,pl1,pl2
@@ -404,6 +410,8 @@ def vsAIh():
          master.update()
          return color,colorpl1,colorpl2,colorc,colorv,num,num2
      def start(l,a1,a2): #main play and reset values for win possibilities
+             global Restart
+             Restart.configure(command=0)
              global combinations,ptot,a,b,c,d,e,f,g,h,i,x,Vittoria,pl1vitt,pl2vitt,turn,end,co,cont,pl1,pl2,win,color,colorv,colorc,colorpl1,colorpl2
      #values reset
              
@@ -470,10 +478,8 @@ def vsAIh():
                      pl2box.configure(foreground=colorpl2,disabledforeground=colorpl2)
              master.update()
              l.geometry("280x200")
-             Restart = Button (master,text="Restart", command= lambda :start(master,pl1box,pl2box) ,state=ACTIVE,background='black',activebackground='black',foreground='white',activeforeground='white')
-             Restart.place(height=20, width=50 ,y=15, x=200)#the restart button
-             checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=ACTIVE,activebackground='black',background='black' )
-             checkbox3.place(y=110, x=200) #the reset color botton
+             Restart.configure(command=lambda :start(master,pl1box,pl2box))
+
              return color,x,a,b,c,d,e,f,g,h,i
      def checkbx4(a,b): #reset and reconfigure counter 
              global pl1vitt,pl2vitt
@@ -483,10 +489,10 @@ def vsAIh():
              b.configure(text=pl2vitt)
              master.update()
              return pl1vitt,pl2vitt
-     def callbacktomenu():
-          global menureturn
-          master.destroy()
-          menureturn = True
+    def out():
+            pl1vitt=0
+            pl2vitt=0
+            master.destroy()
      #other buttons (see the text configured)
      checkbox4 = Button(master, text="reset counter", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx4(pl1box,pl2box) ,state=ACTIVE,activebackground='black',background='black' )
      checkbox4.place(y=135, x=200)
@@ -494,19 +500,12 @@ def vsAIh():
      checktext.place(y=60, x=186)
      checktext2 = Button(master,text="random player color",font=('italic','7'),command= lambda :checkbx2(checktext2) ,state=ACTIVE,foreground='white',background="black",activebackground='Black',activeforeground='white')
      checktext2.place(y=80, x=186)
-     #win counter
-     returntomenu = Button(master,text="return to menu", command= lambda :callbacktomenu(),state=ACTIVE,background='black',activebackground='black',foreground='white',activeforeground='white')
-     returntomenu.place(height=18, width=90 ,y=37, x=186)
-     pl1box = Button(master, text=pl1vitt,foreground='cyan',disabledforeground='cyan',state=DISABLED,activebackground='black',background='black' )
-     pl1box.place(height=30 ,width=30,y=169, x=15)
-     pl2box = Button(master, text=pl2vitt,foreground='red',disabledforeground='red',state=DISABLED,activebackground='black',background='black' )
-     pl2box.place(height=30 ,width=30,y=169, x=130)
-     #spaghetti code launch
+     checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=ACTIVE,activebackground='black',background='black' )
+     checkbox3.place(y=110, x=200) #the reset color botton
      start(master,pl1box,pl2box)
+     master.protocol("WM_DELETE_WINDOW", out)
      master.mainloop()
-     print(menureturn)
-     if menureturn == True:
-          menu1.menu()
+
      
 
 

@@ -1,10 +1,10 @@
 #By LoreBadTime,some import are useless(now)
 #a little precisation,buttons here are unique,they are only a UI thing,the main process is stored in the callback
-import time,random,menu1
+import time,random,menu
 from tkinter import *
 import tkinter as tk
 from itertools import permutations
-global co,Vittoria,num,colorv,pl1vitt,pl2vitt,turn,menureturn
+global co,Vittoria,num,colorv,pl1vitt,pl2vitt,turn,menureturn,pl1box,pl2box,master
 #game
 turn=1
 pl1vitt=0
@@ -28,7 +28,7 @@ win = [(1,2,3),(4,5,6),(7,8,9),(1,4,7),(2,5,8),(3,6,9),(1,5,9),(3,5,7)]
 
 
 def local():
-    global menureturn
+    global menureturn,pl1box,pl2box,pl1vitt,pl2vitt,master
     menureturn = False  
      
   
@@ -36,8 +36,15 @@ def local():
     master = Tk()
     master.title("Tick tac toe")
     master.configure(background='black')
-    master.geometry("204x130")
+    master.geometry("280x200")
     master.resizable(False,False)
+    pl1box = Button(master, text=pl1vitt,foreground='cyan',disabledforeground='cyan',state=DISABLED,activebackground='black',background='black' )
+    pl1box.place(height=30 ,width=30,y=169, x=15)
+    pl2box = Button(master, text=pl2vitt,foreground='red',disabledforeground='red',state=DISABLED,activebackground='black',background='black' )
+    pl2box.place(height=30 ,width=30,y=169, x=130)
+    Restart = Button (master,text="Restart", command= lambda :start(master,pl1box,pl2box) ,state=ACTIVE,background='black',activebackground='black',foreground='white',activeforeground='white')
+    Restart.place(height=20, width=50 ,y=15, x=200)#the restart button
+            
     # count turn and configure the button text
     def gameplay(K,num):
         global cont
@@ -253,11 +260,7 @@ def local():
                     pl2box.configure(foreground=colorpl1,disabledforeground=colorpl1)
                     pl1box.configure(foreground=colorpl2,disabledforeground=colorpl2)
             master.update()
-            l.geometry("280x200")
-            Restart = Button (master,text="Restart", command= lambda :start(master,pl1box,pl2box) ,state=ACTIVE,background='black',activebackground='black',foreground='white',activeforeground='white')
-            Restart.place(height=20, width=50 ,y=15, x=200)#the restart button
-            checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=ACTIVE,activebackground='black',background='black' )
-            checkbox3.place(y=110, x=200) #the reset color botton
+
             return color
 
     def checkbx4(a,b): #reset and reconfigure counter 
@@ -268,11 +271,18 @@ def local():
             b.configure(text=pl2vitt)
             master.update()
             return pl1vitt,pl2vitt
-    def callbacktomenu():
-          global menureturn
-          master.destroy()
-          menureturn = True
+    def out():
+            global pl1vitt,pl1box,pl2vitt,pl2box,retur,master
+            pl1vitt=0
+            pl2vitt=0
+            pl1box.config(text=pl1vitt)
+            pl2box.config(text=pl2vitt)
+            master.destroy()
+            menu.mainmenu()
+            
     #other buttons (see the text configured)
+    checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=ACTIVE,activebackground='black',background='black' )
+    checkbox3.place(y=110, x=200) #the reset color botton
     checkbox4 = Button(master, text="reset counter", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx4(pl1box,pl2box) ,state=ACTIVE,activebackground='black',background='black' )
     checkbox4.place(y=135, x=200)
     checktext = Button(master,text="random background",command= lambda :checkbx(checktext),font=('italic','7') ,state=ACTIVE,background="black",foreground='white',activebackground='Black',activeforeground='white')
@@ -280,17 +290,10 @@ def local():
     checktext2 = Button(master,text="random player color",font=('italic','7'),command= lambda :checkbx2(checktext2) ,state=ACTIVE,foreground='white',background="black",activebackground='Black',activeforeground='white')
     checktext2.place(y=80, x=186)
     #win counters
-    returntomenu = Button(master,text="return to menu", command= lambda :callbacktomenu(),state=ACTIVE,background='black',activebackground='black',foreground='white',activeforeground='white')
-    returntomenu.place(height=18, width=90 ,y=37, x=186)
-    pl1box = Button(master, text=pl1vitt,foreground='cyan',disabledforeground='cyan',state=DISABLED,activebackground='black',background='black' )
-    pl1box.place(height=30 ,width=30,y=169, x=15)
-    pl2box = Button(master, text=pl2vitt,foreground='red',disabledforeground='red',state=DISABLED,activebackground='black',background='black' )
-    pl2box.place(height=30 ,width=30,y=169, x=130)
     #spaghetti code launch
     start(master,pl1box,pl2box)
+    master.protocol("WM_DELETE_WINDOW", out)
     master.mainloop()
-    
-    if menureturn == True:
-          menu1.menu()
+
 #local()#remove this comment to make it work alone
 
