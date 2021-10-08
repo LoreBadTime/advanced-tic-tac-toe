@@ -3,7 +3,7 @@
  
  Features currently supported  
  *local multiplayer  
- *Battle against a simple AI(only attack the AI)  
+ *Battle against a simple AI
  *customizable colors(player and tab background)  
  *counter with player colors  
  (WIP)  
