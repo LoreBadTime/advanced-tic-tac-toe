@@ -7,5 +7,4 @@
  *customizable colors(player and tab background)  
  *counter with player colors  
  (WIP)  
- *online play  
  *full hard AI with different levels  
