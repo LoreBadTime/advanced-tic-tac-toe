@@ -1,10 +1,13 @@
-import time,random,numpy,menu
-from numpy.random import randint
+
+import time,random
 from tkinter import *
 import tkinter as tk
 from itertools import permutations
+import secrets 
 
-global done,co,Vittoria,num,colorv,pl1vitt,pl2vitt,turn,player1,player2,master,turner
+
+global socket,co,Vittoria,num,colorv,pl1vitt,pl2vitt,turn,player1,player2,master,turner,opponent
+
 turner = 0
 retur = False
 player1=None
@@ -128,10 +131,10 @@ def gameplaynormal(K,num):
                             elif winck(win,pl1test) == True and check(pl2,x) != True:
                                  AI = x
                   if check(pl1,AI) == True or check(pl2,AI) == True or AI == []:   
-                               AI = int(randint(1, 10, 1))
+                               AI = 1 + secrets.randbelow(9)
                                
                                while check(pl1,AI) == True or check(pl2,AI) == True:
-                                    AI = int(randint(1, 10, 1))
+                                    AI = 1 + secrets.randbelow(9)
               except:
                   pass
           
@@ -144,21 +147,51 @@ def gameplaynormal(K,num):
               else:
                    if cont < 9:
                         while check(pl1,AI) == True or check(pl2,AI) == True or AI == []:
-                               AI = int(randint(1, 10, 1))
+                               AI = 1 + secrets.randbelow(9)
                                
                    else:
                         pass
               cont = cont + 1
               pl2.append(AI)
               return cont,pl1,pl2,combo,combinations
+def disable():
+          return
+          global a,b,c,d,e,f,g,h,i
+          z = [a,b,c,d,e,f,g,h,i]
+          for y in z:
+               y.configure(command=0)
+def enable():
+          return
+          global a,b,c,d,e,f,g,h,i
+          z = [a,b,c,d,e,f,g,h,i]
+          i = 0
+          for y in z:
+            i += 1
+            if y.cget("text") == "":
+               y.configure(command=lambda :callback(y,i,4))
+   
+def gameplayOnline(K,num):
+        global cont,pl1,pl2,socket
+        cl = socket[0]
+        serv = socket[1]
+        pl1.append(num)
+        display()
+        master.update()
+        disable()
+        cl.sendall(str(num).encode("utf-8"))
+        AI = int((serv.recv(1024)).decode("utf-8"),10)        
+        enable()
+        pl2.append(AI)
+        cont += 2
+        return cont,pl1,pl2
 def gameplayeasy(K,num):
         global cont,pl1,pl2
         pl1.append(num)
-        AI = randint(1, 10, 1)
+        AI = 1 + secrets.randbelow(9)
         while(check(pl1,AI) == True or check(pl2,AI) == True) and cont < 8:
             if cont > 8:
                 break
-            AI = randint(1, 10, 1)          
+            AI = 1 + secrets.randbelow(9)        
         pl2.append(AI)
         cont += 2
         return cont,pl1,pl2
@@ -179,9 +212,9 @@ def gameplayhard(K,num):
                            elif num == 5:
                                 AI.append(random.choice(com))
                            else:
-                                AI.append(randint(1, 9, 1))
+                                AI.append(1 + secrets.randbelow(8))
                                 while winck(pl1,AI) == True  or winck(pl2,AI) == True :   
-                                       AI.append(randint(1, 9, 1))
+                                       AI.append(1 + secrets.randbelow(8))
                            strategy = False
                       elif cont == 3 and (winck(pl1list,comb7) == True or winck(pl1list,comb6) == True or winck(pl1list,comb3) == True or winck(pl1list,comb5) == True): 
                            if winck(pl1list,comb3) == True:
@@ -287,9 +320,9 @@ def gameplayhard(K,num):
                                     elif winck(win,pl1test) == True and check(pl2,x) != True:
                                          AI = x
                           if check(pl1,AI) == True or check(pl2,AI) == True or AI == []:   
-                                       AI = int(randint(1, 10, 1))
+                                       AI = 1 + secrets.randbelow(9)
                                        while check(pl1,AI) == True or check(pl2,AI) == True:
-                                            AI = int(randint(1, 10, 1))
+                                            AI = 1 + secrets.randbelow(9)
                       except:
                           pass
                       try:
@@ -300,7 +333,7 @@ def gameplayhard(K,num):
                       else:
                            if cont < 9:
                                 while check(pl1,AI) == True or check(pl2,AI) == True or AI == []:
-                                       AI = int(randint(1, 10, 1))
+                                       AI = 1 + secrets.randbelow(9)
                       cont = cont + 1
                       pl2.append(AI)
                       return cont,pl1,pl2,combo,combinations
@@ -326,12 +359,12 @@ def gameplayhardattack(K,num):
                                elif num == 3 or num == 7:#si
                                    AI.append(9)
                                elif num == 5:#no
-                                   AI.append(random.choice(list(6,8,9)))
+                                   AI.append(random.choice([6,8,9]))
                                    strategy = False
                                elif num == 6 or num == 8:#si
                                    AI.append(5)
                                elif num == 9:#no
-                                   AI.append(random.choice(list(3,7)))
+                                   AI.append(random.choice([3,7]))
                                    strategy = False
                            elif 3 in pl2:
                                if num == 1 or num == 9:#si
@@ -343,12 +376,12 @@ def gameplayhardattack(K,num):
                                    AI.append(1)
                                    strategy = False
                                elif num == 5:#no
-                                   AI.append(random.choice(list(4,7,8)))
+                                   AI.append(random.choice([4,7,8]))
                                    strategy = False
                                elif num == 4 or num == 8:#si
                                    AI.append(7)
                                elif num == 7:#no
-                                   AI.append(random.choice(list(1,9)))
+                                   AI.append(random.choice([1,9]))
                                    strategy = False
                            elif 7 in pl2:
                                if num == 4:
@@ -360,12 +393,12 @@ def gameplayhardattack(K,num):
                                elif num == 1 or num == 9:#no
                                    AI.append(3)
                                elif num == 5:#no
-                                   AI.append(random.choice(list(2,3,6)))
+                                   AI.append(random.choice([2,3,6]))
                                    strategy = False
                                elif num == 2 or num == 6:#si
                                    AI.append(5)
                                elif num == 3:#no
-                                   AI.append(random.choice(list(1,9)))
+                                   AI.append(random.choice([1,9]))
                                    strategy = False
                            elif 9 in pl2:
                                if num == 6:
@@ -377,22 +410,22 @@ def gameplayhardattack(K,num):
                                elif num == 3 or num == 7:#si
                                    AI.append(1)
                                elif num == 5:#no
-                                   AI.append(random.choice(list(1,2,4)))
+                                   AI.append(random.choice([1,2,4]))
                                    strategy = False
                                elif num == 2 or num == 4:#si
                                    AI.append(5)
                                elif num == 1:#no
-                                   AI.append(random.choice(list(3,7)))
+                                   AI.append(random.choice([3,7]))
                                    strategy = False
                            elif 5 in pl2:
                                if num == 2:
-                                   AI.append(random.choice(list(7,9)))
+                                   AI.append(random.choice([7,9]))
                                elif num == 6:
-                                   AI.append(random.choice(list(7,1)))
+                                   AI.append(random.choice([7,1]))
                                elif num == 4:
-                                   AI.append(random.choice(list(3,9)))
+                                   AI.append(random.choice([3,9]))
                                elif num == 8:#si
-                                   AI.append(random.choice(list(3,1)))
+                                   AI.append(random.choice([3,1]))
                                elif num == 1 :#no
                                    AI.append(9)
                                    strategy = False
@@ -510,9 +543,9 @@ def gameplayhardattack(K,num):
                                     elif winck(win,pl1test) == True and check(pl2,x) != True:
                                          AI = x
                           if check(pl1,AI) == True or check(pl2,AI) == True or AI == []:   
-                                       AI = int(randint(1, 10, 1))
+                                       AI = 1 + secrets.randbelow(9)
                                        while check(pl1,AI) == True or check(pl2,AI) == True:
-                                            AI = int(randint(1, 10, 1))
+                                            AI = 1 + secrets.randbelow(9)
                       except:
                           pass
                       try:
@@ -523,12 +556,12 @@ def gameplayhardattack(K,num):
                       else:
                            if cont < 9:
                                 while check(pl1,AI) == True or check(pl2,AI) == True or AI == []:
-                                       AI = int(randint(1, 10, 1))
+                                       AI = 1 + secrets.randbelow(9)
                       cont = cont + 1
                       pl2.append(AI)
                       return cont,pl1,pl2,combo,combinations
 def display():
-         global pl1,pl2
+         global pl1,pl2,a,b,c,d,e,f,g,h,i
          for y in pl1:
              if y == 1:
                  a.configure(text="X", foreground=colorpl1)
@@ -571,7 +604,7 @@ def display():
 
          return cont,pl1,pl2,combo,combinations
 def callback(K,num,mode):#already tryed outside
-         global turner,combo,cont,Vittoria,co,color,pl1vitt,pl2vitt,turn,btn,a,b,c,d,e,f,g,h,i,x,ptot,AI,pl1win,pl2win,turner
+         global turner,combo,cont,Vittoria,co,color,pl1vitt,pl2vitt,turn,btn,a,b,c,d,e,f,g,h,i,x,ptot,AI,pl1win,pl2win,turner,opponent
          AI = []
          combo = False
          #disable btn when pressed more times and prevent other clicks
@@ -587,9 +620,10 @@ def callback(K,num,mode):#already tryed outside
                  gameplayhard(K,num)
                else:
                  gameplayhardattack(K,num)
-                 
              elif mode == 3:
                  gameplayeasy(K,num)
+             elif mode == 4:
+                 gameplayOnline(K,num)
              display()
          #win conditions (since i can't programm every possibility i used permutations)
          pl1win = list(permutations(pl1,3))
@@ -597,6 +631,7 @@ def callback(K,num,mode):#already tryed outside
          # stupid ass win screen i am too bored to rewrite it
          if winck(win,pl1win) == True:
              Vittoria = True
+             disable()
              if co == 0:
                      co = -2
                      win1 = tk.Toplevel()
@@ -614,9 +649,11 @@ def callback(K,num,mode):#already tryed outside
                      pl2box.configure(text=pl2vitt)
                      turner += 1
                      master.update()
-                     win1.destroy()      
+                     win1.destroy() 
+             enable()     
          elif winck(win,pl2win) == True:
              Vittoria = True
+             disable()
              if co == 0:
                      co = -2
                      win2 = tk.Toplevel()
@@ -635,7 +672,9 @@ def callback(K,num,mode):#already tryed outside
                      turner += 1
                      master.update() 
                      win2.destroy()
+             enable()
          if cont >= 9 and Vittoria == None:#stupid ass lose screen
+             disable()
              if co == 0:
                  co = -2
                  loose = tk.Toplevel()
@@ -649,6 +688,7 @@ def callback(K,num,mode):#already tryed outside
                          pass
                  turner += 1
                  loose.destroy()
+             enable()
          return cont,Vittoria,co,color,pl1vitt,pl2vitt,True
     
 def winck(a, b) :#check for combinations
@@ -709,7 +749,7 @@ def checkbx3(a,b,c,d): #reset all colors
 def start(l,a1,a2,mode): #main play and reset values for win possibilities
              global Restart
              Restart.configure(command=0)
-             global combinations,master,ptot,a,b,c,d,e,f,g,h,i,x,Vittoria,pl1vitt,pl2vitt,turn,end,co,cont,pl1,pl2,win,color,colorv,colorc,colorpl1,colorpl2
+             global opponent,combinations,master,ptot,a,b,c,d,e,f,g,h,i,x,Vittoria,pl1vitt,pl2vitt,turn,end,co,cont,pl1,pl2,win,color,colorv,colorc,colorpl1,colorpl2
      #values reset
              
              if colorv == True: #see checkbx, i need to change the backgroun color before creating those bottons
@@ -762,7 +802,7 @@ def start(l,a1,a2,mode): #main play and reset values for win possibilities
              if ((turner % 2) == 1):
                 tmpAI = 0
                 if mode == 1 or mode == 2:
-                    tmpAI = randint(1, 6, 1)
+                    tmpAI = 1 + secrets.randbelow(5)
                     if tmpAI == 1:
                          pass
                     elif tmpAI == 2:
@@ -774,7 +814,7 @@ def start(l,a1,a2,mode): #main play and reset values for win possibilities
                     elif tmpAI == 5:
                          tmpAI = 9
                 else:
-                    tmpAI = randint(1, 10, 1)
+                    tmpAI = 1 + secrets.randbelow(9)
                 pl2.append(tmpAI)
                 cont += 1
                 for z in pl2:
@@ -832,15 +872,16 @@ def out():
     pl1box.config(text=pl1vitt)
     pl2box.config(text=pl2vitt)
     master.destroy()
-    menu.mainmenu()
-    
+    master.quit()
     
             
  #other buttons (see the text configured)
-def main(mode):
-     global Restart,master,pl1box,pl2box
+def main(mode,sock,sock1):
+     global Restart,master,pl1box,pl2box,socket
      #just start tk
-     master = Tk()
+     socket = [sock,sock1]
+     master = tk.Toplevel()
+     w = Frame(master)
      master.title("Tick tac toe")
      master.configure(background='black')
      master.geometry("280x200")
