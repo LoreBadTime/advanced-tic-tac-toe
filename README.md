@@ -7,6 +7,7 @@
  <li>Battle against a simple AI</li>
  <li>customizable colors(player and tab background)</li>  
  <li>counter with player colors</li>
+ <li>full hard AI with different levels</li> 
  </ul>
- (WIP)  
- *full hard AI with different levels  
+ 
+<strong>Finally online works!!!(partially)</strong>
