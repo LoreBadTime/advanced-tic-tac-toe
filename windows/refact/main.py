@@ -180,7 +180,7 @@ def gameplayOnline(K,num):
         master.update()
         disable()
         cl.sendall(str(num).encode("utf-8"))
-        AI = int((serv.recv(128)).decode("utf-8"),10)        
+        AI = int((serv.recv(50)).decode("utf-8"),10)        
         enable()
         pl2.append(AI)
         cont += 2

@@ -42,7 +42,7 @@ async def connect_to_peer(lista_input):
         while True:
             num = secrets.randbelow(100)
             sock_cl.sendall(str(num).encode("utf-8"))
-            client_num = int((client.recv(128)).decode("utf-8"),10)
+            client_num = int((client.recv(50)).decode("utf-8"),10)
             if(client_num < num):
                 lista_input.append(0)
                 lista_input.append(None)
@@ -51,7 +51,7 @@ async def connect_to_peer(lista_input):
                 pass
             else:
                 lista_input.append(1)
-                lista_input.append(int((client.recv(128)).decode("utf-8"),10))
+                lista_input.append(int((client.recv(50)).decode("utf-8"),10))
                 break
         
     except:    
