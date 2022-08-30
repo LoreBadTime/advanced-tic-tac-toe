@@ -1,4 +1,5 @@
 
+from cgi import test
 import time,random
 from tkinter import *
 import tkinter as tk
@@ -6,8 +7,8 @@ from itertools import permutations
 import secrets 
 
 
-global socket,co,Vittoria,num,colorv,pl1vitt,pl2vitt,turn,player1,player2,master,turner,opponent
-
+global socket,co,Vittoria,num,colorv,pl1vitt,pl2vitt,turn,player1,player2,master,turner,opponent,onlineturn
+onlineturn = None
 turner = 0
 retur = False
 player1=None
@@ -179,7 +180,7 @@ def gameplayOnline(K,num):
         master.update()
         disable()
         cl.sendall(str(num).encode("utf-8"))
-        AI = int((serv.recv(1024)).decode("utf-8"),10)        
+        AI = int((serv.recv(128)).decode("utf-8"),10)        
         enable()
         pl2.append(AI)
         cont += 2
@@ -602,7 +603,7 @@ def display():
                  elif z == 9:
                      i.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
 
-         return cont,pl1,pl2,combo,combinations
+         return cont,pl1,pl2,combinations
 def callback(K,num,mode):#already tryed outside
          global turner,combo,cont,Vittoria,co,color,pl1vitt,pl2vitt,turn,btn,a,b,c,d,e,f,g,h,i,x,ptot,AI,pl1win,pl2win,turner,opponent
          AI = []
@@ -746,12 +747,16 @@ def checkbx3(a,b,c,d): #reset all colors
          num2=1
          master.update()
          return color,colorpl1,colorpl2,colorc,colorv,num,num2
-def start(l,a1,a2,mode): #main play and reset values for win possibilities
-             global Restart
+def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for win possibilities
+             global Restart,onlineturn
              Restart.configure(command=0)
-             global opponent,combinations,master,ptot,a,b,c,d,e,f,g,h,i,x,Vittoria,pl1vitt,pl2vitt,turn,end,co,cont,pl1,pl2,win,color,colorv,colorc,colorpl1,colorpl2
+             global turner,combinations,master,ptot,a,b,c,d,e,f,g,h,i,x,Vittoria,pl1vitt,pl2vitt,turn,end,co,cont,pl1,pl2,win,color,colorv,colorc,colorpl1,colorpl2
      #values reset
              
+             if online == None and turner == None:
+                turner = 1
+             if mode == 4 and online != None:
+                turner = online
              if colorv == True: #see checkbx, i need to change the backgroun color before creating those bottons
                      color=random.choice(colorlist)
                      while color == colorpl1 or color == colorpl2:
@@ -767,77 +772,13 @@ def start(l,a1,a2,mode): #main play and reset values for win possibilities
              cont = 0
              pl1 = []
              pl2 = []
+             texttest = ["","","","","","","","",""]
+             if(intnum != None):
+                texttest[intnum-1] = "O"
              combinations = False
      #adding numbers will increase games possibilities,(new tabs 4x4,5x5)(need to change also the table)
              win = [(1,2,3),(4,5,6),(7,8,9),(1,4,7),(2,5,8),(3,6,9),(1,5,9),(3,5,7)]
              turn = 2
-             a = Button(master, text="",font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
-             a.configure(command=lambda :callback(a,1,mode))
-             a.grid(row=0 ,column=0)
-             b = Button(master, text="",font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
-             b.configure(command=lambda :callback(b,2,mode))
-             b.grid(row=0 ,column=1)
-             c = Button(master, text="",font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
-             c.configure(command=lambda :callback(c,3,mode))
-             c.grid(row=0 ,column=2)
-             d = Button(master, text="",font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
-             d.configure(command=lambda :callback(d,4,mode))
-             d.grid(row=1 ,column=0)
-             e = Button(master, text="",font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
-             e.configure(command=lambda :callback(e,5,mode))
-             e.grid(row=1 ,column=1)
-             f = Button(master, text="",font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
-             f.configure(command=lambda :callback(f,6,mode))
-             f.grid(row=1 ,column=2)
-             g = Button(master, text="",font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
-             g.configure(command=lambda :callback(g,7,mode))
-             g.grid(row=2 ,column=0)
-             h = Button(master, text="",font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
-             h.configure(command=lambda :callback(h,8,mode))
-             h.grid(row=2 ,column=1)
-             i = Button(master, text="",font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
-             i.configure(command=lambda :callback(i,9,mode))
-             i.grid(row=2 ,column=2)
-             #needs developing attack mode
-             if ((turner % 2) == 1):
-                tmpAI = 0
-                if mode == 1 or mode == 2:
-                    tmpAI = 1 + secrets.randbelow(5)
-                    if tmpAI == 1:
-                         pass
-                    elif tmpAI == 2:
-                         tmpAI = 3
-                    elif tmpAI == 3:
-                         tmpAI = 5
-                    elif tmpAI == 4:
-                         tmpAI = 7
-                    elif tmpAI == 5:
-                         tmpAI = 9
-                else:
-                    tmpAI = 1 + secrets.randbelow(9)
-                pl2.append(tmpAI)
-                cont += 1
-                for z in pl2:
-                    if z == 1:
-                        a.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
-                    elif z == 2:
-                        b.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
-                    elif z == 3:
-                        c.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
-                    elif z == 4:
-                        d.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
-                    elif z == 5:
-                        e.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
-                    elif z == 6:
-                        f.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
-                    elif z == 7:
-                        g.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
-                    elif z == 8:
-                        h.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
-                    elif z == 9:
-                        i.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
-             
-             x = (a,b,c,d,e,f,g,h,i)
              if turn % 2 == 0 : #only god knows how this color bullshit works,but its bugless (idk why)
                      if colorc == None:
                              colorpl1='cyan'
@@ -852,10 +793,86 @@ def start(l,a1,a2,mode): #main play and reset values for win possibilities
                              colorpl1,colorpl2 = colorpl2,colorpl1
                      pl1box.configure(foreground=colorpl1,disabledforeground=colorpl1)
                      pl2box.configure(foreground=colorpl2,disabledforeground=colorpl2)
+             
+             a = Button(master, text=texttest[0],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             a.configure(command=lambda :callback(a,1,mode))
+             a.grid(row=0 ,column=0)
+             b = Button(master, text=texttest[1],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             b.configure(command=lambda :callback(b,2,mode))
+             b.grid(row=0 ,column=1)
+             c = Button(master, text=texttest[2],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             c.configure(command=lambda :callback(c,3,mode))
+             c.grid(row=0 ,column=2)
+             d = Button(master, text=texttest[3],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             d.configure(command=lambda :callback(d,4,mode))
+             d.grid(row=1 ,column=0)
+             e = Button(master, text=texttest[4],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             e.configure(command=lambda :callback(e,5,mode))
+             e.grid(row=1 ,column=1)
+             f = Button(master, text=texttest[5],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             f.configure(command=lambda :callback(f,6,mode))
+             f.grid(row=1 ,column=2)
+             g = Button(master, text=texttest[6],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             g.configure(command=lambda :callback(g,7,mode))
+             g.grid(row=2 ,column=0)
+             h = Button(master, text=texttest[7],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             h.configure(command=lambda :callback(h,8,mode))
+             h.grid(row=2 ,column=1)
+             i = Button(master, text=texttest[8],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             i.configure(command=lambda :callback(i,9,mode))
+             i.grid(row=2 ,column=2)
              master.update()
-             l.geometry("280x200")
-             Restart.configure(command=lambda :start(master,pl1box,pl2box,mode))
+             master.update_idletasks()
+             #needs developing attack mode
+             print(turner)
+             if ((turner % 2) == 1):
+                print("aspetta")
+                tmpAI = 0
+                if mode == 1 or mode == 2:
+                    tmpAI = 1 + secrets.randbelow(5)
+                    if tmpAI == 1:
+                         pass
+                    elif tmpAI == 2:
+                         tmpAI = 3
+                    elif tmpAI == 3:
+                         tmpAI = 5
+                    elif tmpAI == 4:
+                         tmpAI = 7
+                    elif tmpAI == 5:
+                         tmpAI = 9
+                elif mode == 4:
+                    tmpAI = intnum
+                else:
+                    tmpAI = 1 + secrets.randbelow(9)
+                print(tmpAI)
+                pl2.append(tmpAI)
+                cont += 1
+                for z in pl2:
+                    if z == 1:
+                        a.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
+                    elif z == 2:
+                        b.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
+                    elif z == 3:
+                        c.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
+                    elif z == 4:
+                        d.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
+                    elif z == 5:
+                        e.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
+                    elif z == 6:
+                        f.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
+                    elif z == 7:
+                        g.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
+                    elif z == 8:
+                        h.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
+                    elif z == 9:
+                        i.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
+                display()
 
+             x = (a,b,c,d,e,f,g,h,i)
+             
+             Restart.configure(command=lambda :start(master,pl1box,pl2box,mode))
+             l.geometry("280x200")
+             
              return color,x,a,b,c,d,e,f,g,h,i
 def checkbx4(a,b): #reset and reconfigure counter 
              global pl1vitt,pl2vitt
@@ -876,12 +893,17 @@ def out():
     
             
  #other buttons (see the text configured)
-def main(mode,sock,sock1):
-     global Restart,master,pl1box,pl2box,socket
+def main(mode,sock=None,sock1=None,turnation=None,getinput=None):
+     global Restart,master,pl1box,pl2box,socket,onlineturn
+     get = getinput
+     onlineturn = turnation
+     if(turnation == None):
+        turnation = 0
      #just start tk
      socket = [sock,sock1]
+     
      master = tk.Toplevel()
-     w = Frame(master)
+     #w = Frame(master)
      master.title("Tick tac toe")
      master.configure(background='black')
      master.geometry("280x200")
@@ -900,8 +922,10 @@ def main(mode,sock,sock1):
      checktext2.place(y=80, x=186)
      checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=ACTIVE,activebackground='black',background='black' )
      checkbox3.place(y=110, x=200) #the reset color botton
-     start(master,pl1box,pl2box,mode)
+     start(master,pl1box,pl2box,mode,turnation,get)
      master.protocol("WM_DELETE_WINDOW", out)
+     master.update()
+     master.update_idletasks()
      master.mainloop()
 
      

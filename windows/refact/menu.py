@@ -22,7 +22,7 @@ def startserver(sock_server,tupl,lista):
     lista.append(client)
 
 async def connect_to_peer(lista_input):
-    CL_ADDRESS = "192.168.43.82" #indirizzo IP
+    CL_ADDRESS = "192.168.160.82" #indirizzo IP
     MY_ADDRESS = ""
     MY_PORT = 11000
     lista = []
@@ -42,15 +42,18 @@ async def connect_to_peer(lista_input):
         while True:
             num = secrets.randbelow(100)
             sock_cl.sendall(str(num).encode("utf-8"))
-            client_num = int((client.recv(1024)).decode("utf-8"),10)
+            client_num = int((client.recv(128)).decode("utf-8"),10)
             if(client_num < num):
                 lista_input.append(0)
+                lista_input.append(None)
                 break
             elif client_num == num:
                 pass
             else:
                 lista_input.append(1)
+                lista_input.append(int((client.recv(128)).decode("utf-8"),10))
                 break
+        
     except:    
         sock_cl.close()
         sock_server.close()
@@ -89,8 +92,7 @@ def mainmenu():
                 lista_socket = []
                 try:
                     asyncio.run(connect_to_peer(lista_socket))
-                    lista_socket[3] = 0
-                    main.main(4,lista_socket[0],lista_socket[1])
+                    main.main(4,lista_socket[0],lista_socket[1],lista_socket[3],lista_socket[4])
                     lista_socket[0].close()
                     lista_socket[2].close()
                 except:
@@ -133,3 +135,13 @@ def mainmenu():
     root.mainloop()
 
 mainmenu()
+def online():
+                lista_socket = []
+                try:
+                    asyncio.run(connect_to_peer(lista_socket))
+                    main.main(4,lista_socket[0],lista_socket[1],lista_socket[3],lista_socket[4])
+                    lista_socket[0].close()
+                    lista_socket[2].close()
+                except:
+                    raise ValueError('Errore connessione al peer')
+#online()
