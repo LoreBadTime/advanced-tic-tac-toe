@@ -1,6 +1,6 @@
 #By LoreBadTime,some import are useless(now)
 #a little precisation,buttons here are unique,they are only a UI thing,the main process is stored in the callback
-import time,random,menu
+import time,random
 from tkinter import *
 import tkinter as tk
 from itertools import permutations
@@ -272,13 +272,13 @@ def local():
             master.update()
             return pl1vitt,pl2vitt
     def out():
-            global pl1vitt,pl1box,pl2vitt,pl2box,retur,master
-            pl1vitt=0
-            pl2vitt=0
-            pl1box.config(text=pl1vitt)
-            pl2box.config(text=pl2vitt)
-            master.destroy()
-            menu.mainmenu()
+        global pl1vitt,pl1box,pl2vitt,pl2box,retur,master
+        pl1vitt=0
+        pl2vitt=0
+        pl1box.config(text=pl1vitt)
+        pl2box.config(text=pl2vitt)
+        master.destroy()
+        master.quit()
             
     #other buttons (see the text configured)
     checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=ACTIVE,activebackground='black',background='black' )

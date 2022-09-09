@@ -1,6 +1,5 @@
 import socket
 import asyncio
-import secrets
 from typing import final
 import webbrowser
 import tkinter as tk
@@ -22,7 +21,7 @@ def startserver(sock_server,tupl,lista):
     lista.append(client)
 
 async def connect_to_peer(lista_input):
-    CL_ADDRESS = "192.168.160.82" #indirizzo IP
+    CL_ADDRESS = "192.168.43.82" #indirizzo IP
     MY_ADDRESS = ""
     MY_PORT = 11000
     lista = []
@@ -39,20 +38,6 @@ async def connect_to_peer(lista_input):
         lista_input.append(sock_cl)
         lista_input.append(client)
         lista_input.append(sock_server)
-        while True:
-            num = secrets.randbelow(100)
-            sock_cl.sendall(str(num).encode("utf-8"))
-            client_num = int((client.recv(50)).decode("utf-8"),10)
-            if(client_num < num):
-                lista_input.append(0)
-                lista_input.append(None)
-                break
-            elif client_num == num:
-                pass
-            else:
-                lista_input.append(1)
-                lista_input.append(int((client.recv(50)).decode("utf-8"),10))
-                break
         
     except:    
         sock_cl.close()
@@ -92,7 +77,7 @@ def mainmenu():
                 lista_socket = []
                 try:
                     asyncio.run(connect_to_peer(lista_socket))
-                    main.main(4,lista_socket[0],lista_socket[1],lista_socket[3],lista_socket[4])
+                    main.main(4,lista_socket[0],lista_socket[1])
                     lista_socket[0].close()
                     lista_socket[2].close()
                 except:
