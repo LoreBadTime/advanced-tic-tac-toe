@@ -1,6 +1,5 @@
 import socket
 import asyncio
-from typing import final
 import webbrowser
 import tkinter as tk
 import local3x3,main
