@@ -39,7 +39,6 @@ async def connect_to_peer(lista_input):
     
 def callback(selection):
         global done
-        print(done)
         if done == False:
             if selection == 1:
                 done = True
