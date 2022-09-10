@@ -5,12 +5,10 @@ from itertools import permutations
 import secrets 
 import gc
 
-global socket,co,Vittoria,num,colorv,pl1vitt,pl2vitt,turn,player1,player2,master,turner,opponent,onlineturn
+global socket,co,Vittoria,num,colorv,pl1vitt,pl2vitt,turn,master,turner,onlineturn
 onlineturn = None
 turner = 0
 retur = False
-player1=None
-player2=None
 turn=1
 pl1vitt=0
 pl2vitt=0
@@ -41,12 +39,7 @@ comb5 = ((1,5),(5,9),(3,5),(5,7))
 comb6 = ((1,8),(1,6),(3,4),(3,8),(7,2),(7,6),(9,2),(9,4))
 comb7 = ((2,6),(6,8),(8,4),(4,2))
 win = [(1,2,3),(4,5,6),(7,8,9),(1,4,7),(2,5,8),(3,6,9),(1,5,9),(3,5,7)]
-def fakeclean():
-          global a,b,c,d,e,f,g,h,i
-          z = [a,b,c,d,e,f,g,h,i]
-          for y in z:
-               y.configure(text="")
-     # count turn and configure the button text #Change AI to pl2
+
 def speedwrite(numlist,anothernum):#this will check for win tryes fo both AI and player
           global AI,pl1list,pl2list,trick,ptot,pl1,pl2
           if check(pl2,anothernum) != True:
@@ -69,11 +62,8 @@ def speedwrite(numlist,anothernum):#this will check for win tryes fo both AI and
                          pl2b.remove(anothernum)
                          if (winck(win,pl2test) == True or winck(win,pl1test) == True) and check(pl1,anothernum) != True:
                                    AI.append(anothernum)
-                                   return AI
-          else:
-               return AI
 def gameplaynormal(K,num):
-         global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot,fun
+         global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot
          trick = 0
          pl1.append(num)
          pl1list = (list(permutations(pl1,2)))
@@ -152,7 +142,6 @@ def gameplaynormal(K,num):
                         pass
               cont = cont + 1
               pl2.append(AI)
-              return cont,pl1,pl2,combo,combinations
 def destroy():
     global a,b,c,d,e,f,g,h,i
     z = [a,b,c,d,e,f,g,h,i]
@@ -172,7 +161,8 @@ def enable(Mode):
           z = [a,b,c,d,e,f,g,h,i]
           for y in z:
             if(y.cget("text") == ""):
-                y.configure(state=ACTIVE)
+                y.update()
+                y.configure(state=NORMAL)
                 y.update()
    
 def gameplayOnline(K,num):
@@ -189,7 +179,6 @@ def gameplayOnline(K,num):
                 pl2.append(AI)
         cont += 2
         enable(4)
-        return cont,pl1,pl2
 def gameplayeasy(K,num):
         global cont,pl1,pl2
         pl1.append(num)
@@ -200,9 +189,8 @@ def gameplayeasy(K,num):
             AI = 1 + secrets.randbelow(9)        
         pl2.append(AI)
         cont += 2
-        return cont,pl1,pl2
 def gameplayhard(K,num):
-         global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot,fun
+         global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot
          trick = 0
          if cont == 0 or cont == 2 or cont == 4 or cont == 6 or cont == 8:
                  pl1.append(num)
@@ -342,9 +330,8 @@ def gameplayhard(K,num):
                                        AI = 1 + secrets.randbelow(9)
                       cont = cont + 1
                       pl2.append(AI)
-                      return cont,pl1,pl2,combo,combinations
 def gameplayhardattack(K,num):
-         global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot,fun
+         global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot
          trick = 0
          if cont == 1 or cont == 3 or cont == 5 or cont == 7 or cont == 9:
                  pl1.append(num)
@@ -565,7 +552,6 @@ def gameplayhardattack(K,num):
                                        AI = 1 + secrets.randbelow(9)
                       cont = cont + 1
                       pl2.append(AI)
-                      return cont,pl1,pl2,combo,combinations
 def display():
          global pl1,pl2,a,b,c,d,e,f,g,h,i
          for y in pl1:
@@ -625,10 +611,8 @@ def display():
                  elif z == 9:
                      i.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
                      i.update()
-                 
-         return cont,pl1,pl2,combinations
 def callback(K,num,mode):#already tryed outside
-         global turner,combo,cont,Vittoria,co,color,pl1vitt,pl2vitt,turn,btn,a,b,c,d,e,f,g,h,i,x,ptot,AI,pl1win,pl2win,turner,opponent
+         global turner,combo,cont,Vittoria,co,color,pl1vitt,pl2vitt,turn,btn,a,b,c,d,e,f,g,h,i,x,ptot,AI,pl1win,pl2win,turner
          AI = []
          combo = False
          #disable btn when pressed more times and prevent other clicks
@@ -657,8 +641,8 @@ def callback(K,num,mode):#already tryed outside
              Vittoria = True
              disable()
              if co == 0:
-                     
                      co = -2
+                     destroy()
                      win1 = tk.Toplevel()
                      win1.title("Winner")
                      sos = tk.Text(win1, height=7,width=25)
@@ -675,13 +659,13 @@ def callback(K,num,mode):#already tryed outside
                      turner += 1
                      master.update()
                      win1.destroy() 
-                     destroy()
          elif winck(win,pl2win) == True:
              Vittoria = True
              disable()
              if co == 0:
                      if mode == 4:
                         socket[0].send(str(1 + secrets.randbelow(9)).encode("utf-8"))
+                     destroy()
                      co = -2
                      win2 = tk.Toplevel()
                      win2.title("Looser")
@@ -699,7 +683,7 @@ def callback(K,num,mode):#already tryed outside
                      turner += 1
                      master.update() 
                      win2.destroy()
-                     destroy()
+                     
          if cont >= 9 and Vittoria == None:#stupid ass lose screen
              disable()
              if co == 0:
@@ -707,6 +691,7 @@ def callback(K,num,mode):#already tryed outside
                     if 11 not in pl2:
                         socket[0].send(str(11).encode("utf-8"))
                  co = -2
+                 destroy()
                  loose = tk.Toplevel()
                  loose.title("Loosers")
                  txtloose = tk.Text(loose, height=3,width=25)
@@ -718,10 +703,7 @@ def callback(K,num,mode):#already tryed outside
                          pass
                  turner += 1
                  loose.destroy()
-                 destroy()
-
-         return cont,Vittoria,co,color,pl1vitt,pl2vitt,True
-    
+                 
 def winck(a, b) :#check for combinations
              for x in a :
                  for y in b :
@@ -750,7 +732,6 @@ def checkbx(a): #change color background mechanism (try to unite it with the oth
                      a.config(background='black',foreground='white',activeforeground='green')
                      colorv = False
              master.update()
-             return num,colorv
 def checkbx2(a): #change player color mechanism try to unite it
              global num2,colorc
              num2 = num2 + 1
@@ -761,7 +742,6 @@ def checkbx2(a): #change player color mechanism try to unite it
                      a.config(background='black',foreground='white',activeforeground='green')
                      colorc = False
              master.update()
-             return num2,colorc
 def checkbx3(a,b,c,d): #reset all colors
          global color,colorpl1,colorpl2,colorc,colorv,num,num2
          color='black'
@@ -776,7 +756,6 @@ def checkbx3(a,b,c,d): #reset all colors
          num=1
          num2=1
          master.update()
-         return color,colorpl1,colorpl2,colorc,colorv,num,num2
 def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for win possibilities
              global Restart,onlineturn
              Restart.configure(command=0)
@@ -840,31 +819,31 @@ def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for
              
              
              
-             a = Button(master, text=texttest[0],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             a = Button(master, text=texttest[0],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
              
              a.grid(row=0 ,column=0)
-             b = Button(master, text=texttest[1],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             b = Button(master, text=texttest[1],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
              
              b.grid(row=0 ,column=1)
-             c = Button(master, text=texttest[2],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             c = Button(master, text=texttest[2],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
              
              c.grid(row=0 ,column=2)
-             d = Button(master, text=texttest[3],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             d = Button(master, text=texttest[3],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
              
              d.grid(row=1 ,column=0)
-             e = Button(master, text=texttest[4],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             e = Button(master, text=texttest[4],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
              
              e.grid(row=1 ,column=1)
-             f = Button(master, text=texttest[5],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             f = Button(master, text=texttest[5],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
              
              f.grid(row=1 ,column=2)
-             g = Button(master, text=texttest[6],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             g = Button(master, text=texttest[6],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
              
              g.grid(row=2 ,column=0)
-             h = Button(master, text=texttest[7],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             h = Button(master, text=texttest[7],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
              
              h.grid(row=2 ,column=1)
-             i = Button(master, text=texttest[8],font=('arial','20'), state=ACTIVE, height = 1,width = 3,activebackground=color,background=color)
+             i = Button(master, text=texttest[8],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
              
              i.grid(row=2 ,column=2)
              #needs developing attack mode
@@ -946,8 +925,6 @@ def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for
              x = [a,b,c,d,e,f,g,h,i]
              Restart.configure(command=lambda :start(master,pl1box,pl2box,mode))
              l.geometry("280x200")
-             
-             return color,x,a,b,c,d,e,f,g,h,i
 def checkbx4(a,b): #reset and reconfigure counter 
              global pl1vitt,pl2vitt
              pl1vitt=0
@@ -955,7 +932,6 @@ def checkbx4(a,b): #reset and reconfigure counter
              a.configure(text=pl1vitt)
              b.configure(text=pl2vitt)
              master.update()
-             return pl1vitt,pl2vitt
 def out():
     global pl1vitt,pl1box,pl2vitt,pl2box,retur,master
     pl1vitt=0
@@ -981,19 +957,19 @@ def main(mode,sock=None,sock1=None,turnation=None):
      master.configure(background='black')
      master.geometry("280x200")
      master.resizable(False,False)
-     Restart = Button(master,text="Restart", command= lambda :start(master,pl1box,pl2box,mode,turnation) ,state=ACTIVE,background='black',activebackground='black',foreground='white',activeforeground='white')
+     Restart = Button(master,text="Restart", command= lambda :start(master,pl1box,pl2box,mode,turnation) ,state=NORMAL,background='black',activebackground='black',foreground='white',activeforeground='white')
      Restart.place(height=20, width=50 ,y=15, x=200)#the restart button
      pl1box = Button(master, text=pl1vitt,foreground='cyan',disabledforeground='cyan',state=DISABLED,activebackground='black',background='black' )
      pl1box.place(height=30 ,width=30,y=169, x=15)
      pl2box = Button(master, text=pl2vitt,foreground='red',disabledforeground='red',state=DISABLED,activebackground='black',background='black' )
      pl2box.place(height=30 ,width=30,y=169, x=130)
-     checkbox4 = Button(master, text="reset counter", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx4(pl1box,pl2box) ,state=ACTIVE,activebackground='black',background='black' )
+     checkbox4 = Button(master, text="reset counter", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx4(pl1box,pl2box) ,state=NORMAL,activebackground='black',background='black' )
      checkbox4.place(y=135, x=200)
-     checktext = Button(master,text="random background",command= lambda :checkbx(checktext),font=('italic','7') ,state=ACTIVE,background="black",foreground='white',activebackground='Black',activeforeground='white')
+     checktext = Button(master,text="random background",command= lambda :checkbx(checktext),font=('italic','7') ,state=NORMAL,background="black",foreground='white',activebackground='Black',activeforeground='white')
      checktext.place(y=60, x=186)
-     checktext2 = Button(master,text="random player color",font=('italic','7'),command= lambda :checkbx2(checktext2) ,state=ACTIVE,foreground='white',background="black",activebackground='Black',activeforeground='white')
+     checktext2 = Button(master,text="random player color",font=('italic','7'),command= lambda :checkbx2(checktext2) ,state=NORMAL,foreground='white',background="black",activebackground='Black',activeforeground='white')
      checktext2.place(y=80, x=186)
-     checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=ACTIVE,activebackground='black',background='black' )
+     checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=NORMAL,activebackground='black',background='black' )
      checkbox3.place(y=110, x=200) #the reset color botton
      start(master,pl1box,pl2box,mode,turnation)
      master.protocol("WM_DELETE_WINDOW", out)
