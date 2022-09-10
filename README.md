@@ -10,4 +10,4 @@
  <li>full hard AI with different levels</li> 
  </ul>
  
-<strong>Finally online works!!!(partially,only the first play and you need to set the IP manually for now)</strong>
+<strong>Finally online works!(partially,since i am only on a mobile hotspot and cant port forward to external IP)</strong>
