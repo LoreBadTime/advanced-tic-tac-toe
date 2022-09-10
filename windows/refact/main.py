@@ -798,9 +798,7 @@ def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for
              
              i.grid(row=2 ,column=2)
              #needs developing attack mode
-             print(turner)
              if ((turner % 2) == 1):
-                print("aspetta")
                 tmpAI = 0
                 if mode == 1 or mode == 2:
                     tmpAI = 1 + secrets.randbelow(5)
@@ -837,7 +835,6 @@ def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for
                             tmpAI = int((socket[1].recv(50)).decode("utf-8"),10)
                 else:
                     tmpAI = 1 + secrets.randbelow(9)
-                print(tmpAI)
                 pl2.append(tmpAI)
                 cont += 1
                 for z in pl2:

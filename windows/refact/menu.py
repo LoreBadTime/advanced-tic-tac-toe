@@ -7,16 +7,14 @@ import local3x3,main
 
 def startclient(sock,tupl):
     sock.setblocking(True)
-    print("client in connect\n")
     sock.connect(tupl)
-    print("client connected\n")
+    print("connected\n")
 
 def startserver(sock_server,tupl,lista):
 
     sock_server.setblocking(True)
     sock_server.bind(tupl)
     sock_server.listen()
-    print("server in accept\n")
     client, address = sock_server.accept()
     lista.append(client)
 
@@ -32,27 +30,15 @@ async def connect_to_peer(lista_input):
         await asyncio.gather(
                 asyncio.to_thread(startserver,sock_server,(MY_ADDRESS,MY_PORT),lista),
                 asyncio.to_thread(startclient,sock_cl,(CL_ADDRESS,MY_PORT)))
-        server = sock_server
-        client = lista[0]
-
         lista_input.append(sock_cl)
-        lista_input.append(client)
+        lista_input.append(lista[0])
         lista_input.append(sock_server)
-        
     except:    
         sock_cl.close()
         sock_server.close()
         raise ValueError('Errore connessione al peer')
     
-
-
-def mainmenu():
-    global root,pl1vitt,pl2vitt,done,aa,bb,cc,dd,client
-    global done
-    done = False
-    selection = 0
-
-    def callback(selection):
+def callback(selection):
         global done
         print(done)
         if done == False:
@@ -86,10 +72,14 @@ def mainmenu():
         return done
 
         
-    def openwebpage():
+def openwebpage():
         webbrowser.open('https://github.com/LoreBadTime/tkinter-tic-tac-toe', new=2)
 
 
+def mainmenu():
+    global root,pl1vitt,pl2vitt,done,aa,bb,cc,dd,client
+    global done
+    done = False
     root = tk.Tk()
     root.title("Tick tac toe menu")
     root.configure(background='black')
@@ -120,13 +110,3 @@ def mainmenu():
     root.mainloop()
 
 mainmenu()
-def online():
-                lista_socket = []
-                try:
-                    asyncio.run(connect_to_peer(lista_socket))
-                    main.main(4,lista_socket[0],lista_socket[1],lista_socket[3],lista_socket[4])
-                    lista_socket[0].close()
-                    lista_socket[2].close()
-                except:
-                    raise ValueError('Errore connessione al peer')
-#online()
