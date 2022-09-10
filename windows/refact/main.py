@@ -40,28 +40,30 @@ comb6 = ((1,8),(1,6),(3,4),(3,8),(7,2),(7,6),(9,2),(9,4))
 comb7 = ((2,6),(6,8),(8,4),(4,2))
 win = [(1,2,3),(4,5,6),(7,8,9),(1,4,7),(2,5,8),(3,6,9),(1,5,9),(3,5,7)]
 
-def speedwrite(numlist,anothernum):#this will check for win tryes fo both AI and player
+def speedwrite():#this will check for win tryes fo both AI and player
           global AI,pl1list,pl2list,trick,ptot,pl1,pl2
-          if check(pl2,anothernum) != True:
-                    pl1a = pl1
-                    pl2b = pl2
-                    s = False
-                    for x in pl1a:
-                         for y in pl2b:
-                              if y == x:
-                                   s = True
-                              else:
-                                   pass
-                    #this will calculate games wins
-                    if check(pl1list,comb2[numlist]) == True and s == False or check(pl2list,comb2[numlist]) == True and s == False :
-                         pl1a.append(anothernum)
-                         pl2b.append(anothernum)
-                         pl1test = (list(permutations(pl1a,3)))
-                         pl2test = (list(permutations(pl2b,3)))
-                         pl1a.remove(anothernum)
-                         pl2b.remove(anothernum)
-                         if (winck(win,pl2test) == True or winck(win,pl1test) == True) and check(pl1,anothernum) != True:
-                                   AI.append(anothernum)
+          args = [(0,3),(1,2),(2,1),(3,6),(4,4),(5,5),(6,9),(7,8),(8,7),(9,7),
+                            (10,4),(11,1),(12,8),(13,2),(14,5),(15,9),(16,3),(17,6),(18,9),
+                            (19,1),(20,5),(21,7),(22,5),(23,3)]
+          for elem in args:
+            numlist,anothernum = elem
+            if check(pl2,anothernum) != True:
+                      pl1a = pl1
+                      pl2b = pl2
+                      s = False
+                      for x in pl1a:
+                           if x in pl2b:
+                              s = True
+                      #this will calculate games wins
+                      if (check(pl1list,comb2[numlist]) or check(pl2list,comb2[numlist])) and s == False :
+                           pl1a.append(anothernum)
+                           pl2b.append(anothernum)
+                           pl1test = (list(permutations(pl1a,3)))
+                           pl2test = (list(permutations(pl2b,3)))
+                           pl1a.remove(anothernum)
+                           pl2b.remove(anothernum)
+                           if (winck(win,pl2test) == True or winck(win,pl1test) == True) and check(pl1,anothernum) != True:
+                                     AI.append(anothernum)
 def gameplaynormal(num):
          global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot
          trick = 0
@@ -73,32 +75,7 @@ def gameplaynormal(num):
          strategy = True
          if cont < 9:#now there are only specific cases   
               if (winck(comb2,pl1list) == True or winck(comb2,pl2list) == True) and strategy == True :
-                  speedwrite(0,3)
-                  speedwrite(1,2)
-                  speedwrite(2,1)
-                  speedwrite(3,6)
-                  speedwrite(4,4)
-                  speedwrite(5,5)
-                  speedwrite(6,9)
-                  speedwrite(7,8)
-                  speedwrite(8,7)
-                  speedwrite(9,7)
-                  speedwrite(10,4)
-                  speedwrite(11,1)
-                  speedwrite(12,8)
-                  speedwrite(13,2)
-                  speedwrite(14,5)
-                  speedwrite(15,9)
-                  speedwrite(16,3)
-                  speedwrite(17,6)
-                  speedwrite(18,9)
-                  speedwrite(19,1)
-                  speedwrite(20,5)
-                  speedwrite(21,7)
-                  speedwrite(22,5)
-                  speedwrite(23,3)
-                  
-                  
+                  speedwrite()
               try:
                   for x in AI:#this will eliminate duplicates and will prefer AI wins
                             x = int(x)
@@ -270,32 +247,7 @@ def gameplayhard(num):
                            elif check(pl1list,comb6[6]) == True or check(pl1list,comb6[7]) == True :
                                 AI.append(1)    
                       if (winck(comb2,pl1list) == True or winck(comb2,pl2list) == True) and strategy == True :
-                          speedwrite(0,3)
-                          speedwrite(1,2)
-                          speedwrite(2,1)
-                          speedwrite(3,6)
-                          speedwrite(4,4)
-                          speedwrite(5,5)
-                          speedwrite(6,9)
-                          speedwrite(7,8)
-                          speedwrite(8,7)
-                          speedwrite(9,7)
-                          speedwrite(10,4)
-                          speedwrite(11,1)
-                          speedwrite(12,8)
-                          speedwrite(13,2)
-                          speedwrite(14,5)
-                          speedwrite(15,9)
-                          speedwrite(16,3)
-                          speedwrite(17,6)
-                          speedwrite(18,9)
-                          speedwrite(19,1)
-                          speedwrite(20,5)
-                          speedwrite(21,7)
-                          speedwrite(22,5)
-                          speedwrite(23,3)
-                          
-                          
+                          speedwrite()
                       try:
                           for x in AI:#this will eliminate duplicates and will prefer AI wins
                                     x = int(x)
@@ -492,30 +444,7 @@ def gameplayhardattack(num):
 ##                           elif check(pl1list,comb6[6]) == True or check(pl1list,comb6[7]) == True :
 ##                                AI.append(1)    
                       if (winck(comb2,pl1list) == True or winck(comb2,pl2list) == True) and strategy == True :
-                          speedwrite(0,3)
-                          speedwrite(1,2)
-                          speedwrite(2,1)
-                          speedwrite(3,6)
-                          speedwrite(4,4)
-                          speedwrite(5,5)
-                          speedwrite(6,9)
-                          speedwrite(7,8)
-                          speedwrite(8,7)
-                          speedwrite(9,7)
-                          speedwrite(10,4)
-                          speedwrite(11,1)
-                          speedwrite(12,8)
-                          speedwrite(13,2)
-                          speedwrite(14,5)
-                          speedwrite(15,9)
-                          speedwrite(16,3)
-                          speedwrite(17,6)
-                          speedwrite(18,9)
-                          speedwrite(19,1)
-                          speedwrite(20,5)
-                          speedwrite(21,7)
-                          speedwrite(22,5)
-                          speedwrite(23,3)
+                          speedwrite()
                           
                           
                       try:
@@ -778,7 +707,12 @@ def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for
              Restart.configure(command=0)
              global turner,combinations,master,ptot,a,b,c,d,e,f,g,h,i,x,Vittoria,pl1vitt,pl2vitt,turn,end,co,cont,pl1,pl2,win,color,colorv,colorc,colorpl1,colorpl2
      #values reset
+             try:
+                destroy()
+             except:
+                pass
              if mode == 4:
+                Restart.configure(state=DISABLED)
                 while True:
                    num = 10 + secrets.randbelow(89)
                    socket[0].sendall(str(num).encode("utf-8"))
