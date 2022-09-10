@@ -50,7 +50,7 @@ def speedwrite(numlist,anothernum):#this will check for win tryes fo both AI and
                          for y in pl2b:
                               if y == x:
                                    s = True
-                              else :
+                              else:
                                    pass
                     #this will calculate games wins
                     if check(pl1list,comb2[numlist]) == True and s == False or check(pl2list,comb2[numlist]) == True and s == False :
@@ -62,7 +62,7 @@ def speedwrite(numlist,anothernum):#this will check for win tryes fo both AI and
                          pl2b.remove(anothernum)
                          if (winck(win,pl2test) == True or winck(win,pl1test) == True) and check(pl1,anothernum) != True:
                                    AI.append(anothernum)
-def gameplaynormal(K,num):
+def gameplaynormal(num):
          global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot
          trick = 0
          pl1.append(num)
@@ -165,7 +165,7 @@ def enable(Mode):
                 y.configure(state=NORMAL)
                 y.update()
    
-def gameplayOnline(K,num):
+def gameplayOnline(num):
         global cont,pl1,pl2,socket
         cl = socket[0]
         serv = socket[1]
@@ -179,7 +179,7 @@ def gameplayOnline(K,num):
                 pl2.append(AI)
         cont += 2
         enable(4)
-def gameplayeasy(K,num):
+def gameplayeasy(num):
         global cont,pl1,pl2
         pl1.append(num)
         AI = 1 + secrets.randbelow(9)
@@ -189,7 +189,7 @@ def gameplayeasy(K,num):
             AI = 1 + secrets.randbelow(9)        
         pl2.append(AI)
         cont += 2
-def gameplayhard(K,num):
+def gameplayhard(num):
          global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot
          trick = 0
          if cont == 0 or cont == 2 or cont == 4 or cont == 6 or cont == 8:
@@ -330,7 +330,7 @@ def gameplayhard(K,num):
                                        AI = 1 + secrets.randbelow(9)
                       cont = cont + 1
                       pl2.append(AI)
-def gameplayhardattack(K,num):
+def gameplayhardattack(num):
          global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot
          trick = 0
          if cont == 1 or cont == 3 or cont == 5 or cont == 7 or cont == 9:
@@ -612,7 +612,7 @@ def display():
                      i.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
                      i.update()
 def callback(K,num,mode):#already tryed outside
-         global turner,combo,cont,Vittoria,co,color,pl1vitt,pl2vitt,turn,btn,a,b,c,d,e,f,g,h,i,x,ptot,AI,pl1win,pl2win,turner
+         global turner,combo,cont,Vittoria,co,color,pl1vitt,pl2vitt,turn,a,b,c,d,e,f,g,h,i,x,ptot,AI,pl1win,pl2win,turner,Restart
          AI = []
          combo = False
          #disable btn when pressed more times and prevent other clicks
@@ -622,16 +622,16 @@ def callback(K,num,mode):#already tryed outside
              K.config(command=0)
          else:
              if mode == 1:
-                 gameplaynormal(K,num)
+                 gameplaynormal(num)
              elif mode == 2:
                if (turner % 2) == 0:
-                 gameplayhard(K,num)
+                 gameplayhard(num)
                else:
-                 gameplayhardattack(K,num)
+                 gameplayhardattack(num)
              elif mode == 3:
-                 gameplayeasy(K,num)
+                 gameplayeasy(num)
              elif mode == 4:
-                 gameplayOnline(K,num)
+                 gameplayOnline(num)
              display()
          #win conditions (since i can't programm every possibility i used permutations)
          pl1win = list(permutations(pl1,3))
@@ -641,86 +641,103 @@ def callback(K,num,mode):#already tryed outside
              Vittoria = True
              disable()
              if co == 0:
+                     Restart.configure(state=DISABLED)
+                     Restart.update()
                      co = -2
                      destroy()
                      win1 = tk.Toplevel()
-                     win1.title("Winner")
-                     sos = tk.Text(win1, height=7,width=25)
-                     sos.grid(column=3,row=0)
-                     if turn % 2 == 0:
+                     try:   
+                        win1.title("Winner")
+                        sos = tk.Text(win1, height=7,width=25)
+                        sos.grid(column=3,row=0)
+                        if turn % 2 == 0:
                              pl1vitt=pl1vitt + 1 
                              sos.insert(tk.END, "You Won!")
-                     try:   
-                             Flashyflash(sos)
+                        Flashyflash(sos)
+                        win1.destroy()
                      except:
-                             pass
+                        win1.destroy()
+                     Restart.update()
+                     Restart.configure(state=NORMAL)
+                     Restart.update() 
                      pl1box.configure(text=pl1vitt) #counter update
                      pl2box.configure(text=pl2vitt)
                      turner += 1
                      master.update()
-                     win1.destroy() 
+                     
          elif winck(win,pl2win) == True:
              Vittoria = True
              disable()
              if co == 0:
+                     destroy()
                      if mode == 4:
                         socket[0].send(str(1 + secrets.randbelow(9)).encode("utf-8"))
-                     destroy()
                      co = -2
+                     Restart.configure(state=DISABLED)
+                     Restart.update()
                      win2 = tk.Toplevel()
-                     win2.title("Looser")
-                     sos = tk.Text(win2, height=3,width=25)
-                     sos.grid(column=3,row=0)
-                     if turn % 2 == 0:
-                             pl2vitt=pl2vitt + 1#and this
-                             sos.insert(tk.END, "You lost,keep trying")
-                     try :   
-                             Flashyflash(sos)
+                     
+                     try:
+                        win2.title("Looser")
+                        sos = tk.Text(win2, height=3,width=25)
+                        sos.grid(column=3,row=0)
+                        if turn % 2 == 0:
+                            pl2vitt=pl2vitt + 1#and this
+                            sos.insert(tk.END, "You lost,keep trying")
+                        Flashyflash(sos)
+                        win2.destroy()
                      except:
-                             pass
+                        win2.destroy()
+                     Restart.update()
+                     Restart.configure(state=NORMAL)
+                     Restart.update() 
                      pl1box.configure(text=pl1vitt)
                      pl2box.configure(text=pl2vitt)
                      turner += 1
                      master.update() 
-                     win2.destroy()
+                     
                      
          if cont >= 9 and Vittoria == None:#stupid ass lose screen
              disable()
              if co == 0:
+                 Restart.configure(state=DISABLED)
+                 Restart.update()
+                 destroy()
+                 
                  if mode == 4:
                     if 11 not in pl2:
                         socket[0].send(str(11).encode("utf-8"))
                  co = -2
-                 destroy()
-                 loose = tk.Toplevel()
-                 loose.title("Loosers")
-                 txtloose = tk.Text(loose, height=3,width=25)
-                 txtloose.insert(tk.END, "Try again")
-                 txtloose.grid(column=3,row=0)
-                 try :
-                         Flashyflash(txtloose)
-                 except:
-                         pass
-                 turner += 1
-                 loose.destroy()
                  
+                 loose = tk.Toplevel()
+                 try :
+                        loose.title("Loosers")
+                        txtloose = tk.Text(loose, height=3,width=25)
+                        txtloose.insert(tk.END, "Try again")
+                        txtloose.grid(column=3,row=0)
+                        Flashyflash(txtloose)
+                        loose.destroy()
+                 except:
+                        loose.destroy()
+                 Restart.update()
+                 Restart.configure(state=NORMAL)
+                 Restart.update() 
+                 turner += 1     
 def winck(a, b) :#check for combinations
-             for x in a :
-                 for y in b :
-                     if x == y :
-                         return True
+    for x in a :
+        if x in b:
+            return True
 def Flashyflash(window):#just color display
              global colorlist
              x=0
              while x != 13:#if you want more or less colors in win\lose window
                      window.configure(bg=random.choice(colorlist))
                      window.update()
-                     time.sleep(0.3)
+                     time.sleep(0.2)
                      x = x + 1        
 def check(a,b): #another check
-             for x in a:
-                     if x == b:
-                             return True
+    if b in a:
+        return True
 
 def checkbx(a): #change color background mechanism (try to unite it with the other below)
              global num,colorv
