@@ -889,7 +889,7 @@ def out():
     
             
  #other buttons (see the text configured)
-def main(mode,sock=None,sock1=None,turnation=None):
+def main(mode,sock=None,sock1=None,turnation=None,connected_btn=None):
      global Restart,master,pl1box,pl2box,socket,onlineturn
      onlineturn = turnation
      if(turnation == None):
@@ -918,6 +918,8 @@ def main(mode,sock=None,sock1=None,turnation=None):
      checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=NORMAL,activebackground='black',background='black' )
      checkbox3.place(y=110, x=200) #the reset color botton
      start(master,pl1box,pl2box,mode,turnation)
+     if(connected_btn != None):
+        connected_btn.destroy()
      master.protocol("WM_DELETE_WINDOW", out)
      master.update()
      master.mainloop()

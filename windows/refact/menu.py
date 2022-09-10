@@ -1,7 +1,9 @@
+
 import socket
 import asyncio
 import webbrowser
 import tkinter as tk
+from tkinter import DISABLED, messagebox
 import local3x3,main
 
 def startclient(sock,tupl):
@@ -17,8 +19,8 @@ def startserver(sock_server,tupl,lista):
     client, address = sock_server.accept()
     lista.append(client)
 
-async def connect_to_peer(lista_input):
-    CL_ADDRESS = "192.168.43.82" #indirizzo IP
+async def connect_to_peer(lista_input,IPAddress):
+    CL_ADDRESS = IPAddress
     MY_ADDRESS = ""
     MY_PORT = 11000
     lista = []
@@ -36,8 +38,35 @@ async def connect_to_peer(lista_input):
         sock_cl.close()
         sock_server.close()
         raise ValueError('Errore connessione al peer')
-    
-def callback(selection):
+
+def check(string):
+    if string == "":
+        return False
+    lista = []
+    tmp = ""
+    i = 0
+    for el in string:
+        if(el == "."):
+            lista.append(tmp)
+            tmp = ""
+            i = 0
+        else:
+            tmp = tmp + el
+            i += 1
+            if i > 3:
+                return False
+    i = 0
+    for el in lista:
+        i += 1
+        if int(el,10) > 255:
+            return False
+    if i > 4:   
+        return False 
+    return True
+
+
+
+def callback(selection,IPAdd=None,window=None,Button_connect=None):
         global done
         if done == False:
             if selection == 1:
@@ -58,14 +87,40 @@ def callback(selection):
                 done = False
             elif selection == 5:
                 done = True
-                lista_socket = []
-                try:
-                    asyncio.run(connect_to_peer(lista_socket))
-                    main.main(4,lista_socket[0],lista_socket[1])
-                    lista_socket[0].close()
-                    lista_socket[2].close()
-                except:
-                    raise ValueError('Errore connessione al peer')
+                IPwindow = tk.Toplevel()
+                IPwindow.configure(background='black')
+                IPwindow.geometry("170x120")
+                IPwindow.title("Remote Play")
+                txt = tk.Text(IPwindow,bg='black',fg='white',borderwidth = 0, highlightthickness = 0)
+                txt.insert(tk.END, "Insert Opponent IP")
+                txt.config(state=DISABLED)
+                txt.place(x=10 ,y=10)
+                txtInput = tk.Entry(IPwindow)
+                txtInput.place(x=10 ,y=40)
+                button = tk.Button(IPwindow, text="Connect", command=lambda: callback(6,txtInput.get(),IPwindow,button),activebackground='black',background='black',foreground='green')
+                button.place(x=10 ,y=70)
+                done = False
+            elif selection == 6:
+                done = True
+                if check(IPAdd):
+                    lista_socket = []
+                    try:
+                        Button_connect.configure(text="Connecting...",foreground='cyan')
+                        Button_connect.update()
+                        asyncio.run(connect_to_peer(lista_socket,IPAdd))
+                        main.main(4,lista_socket[0],lista_socket[1],None,window)
+                        lista_socket[0].close()
+                        lista_socket[2].close()
+                    except:
+                        try:
+                           lista_socket[0].close()
+                           lista_socket[2].close()
+                        except:
+                            pass
+                        messagebox.showerror('Errore di connessione', 'Connessione interrotta o impossibile stabilire la connessione')
+                        window.destroy()
+                else:
+                    Button_connect.configure(text="Invalid IP address",foreground='red')
                 done = False
         return done
 
