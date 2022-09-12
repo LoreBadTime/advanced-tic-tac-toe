@@ -1,4 +1,3 @@
-
 import socket
 import asyncio
 import webbrowser
@@ -7,37 +6,48 @@ from tkinter import DISABLED, messagebox
 import local3x3,main
 
 def startclient(sock,tupl):
-    sock.setblocking(True)
-    sock.connect(tupl)
+    sock.append(socket.create_connection(tupl))
+    sock[0].setblocking(True)
     print("connected\n")
 
 def startserver(sock_server,tupl,lista):
 
+    if socket.has_dualstack_ipv6():
+        sock_server = socket.create_server(tupl, family=socket.AF_INET6, dualstack_ipv6=True)
+    else:
+        sock_server = socket.create_server(tupl)
     sock_server.setblocking(True)
-    sock_server.bind(tupl)
     sock_server.listen()
     client, address = sock_server.accept()
     lista.append(client)
 
-async def connect_to_peer(lista_input,IPAddress):
-    CL_ADDRESS = IPAddress
+async def connect_to_peer(lista_input,IPAddress,Ipversion):
+    CL_ADDRESS = IPAddress#IPAddress
     MY_ADDRESS = ""
     MY_PORT = 11000
     lista = []
+    socket.setdefaulttimeout(10)
+    Ipv = socket.AF_INET
+    upla_serv = (MY_ADDRESS,MY_PORT)
+    upla_cl = (CL_ADDRESS,MY_PORT)
+    if Ipversion:
+        Ipv = socket.AF_INET6
+        MY_ADDRESS = "::"
+        upla_serv = (MY_ADDRESS,MY_PORT)
     try:
-        sock_server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        sock_cl = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        sock_server = None
+        sock_cl = []
 
         await asyncio.gather(
-                asyncio.to_thread(startserver,sock_server,(MY_ADDRESS,MY_PORT),lista),
-                asyncio.to_thread(startclient,sock_cl,(CL_ADDRESS,MY_PORT)))
-        lista_input.append(sock_cl)
+                asyncio.to_thread(startserver,sock_server,upla_serv,lista),
+                asyncio.to_thread(startclient,sock_cl,upla_cl))
+        lista_input.append(sock_cl[0])
         lista_input.append(lista[0])
         lista_input.append(sock_server)
-    except:    
-        sock_cl.close()
+    except Exception as err:    
+        sock_cl[0].close()
         sock_server.close()
-        raise ValueError('Errore connessione al peer')
+        raise ValueError('Errore connessione al peer' + str(err))
 
 def check(string):
     if string == "":
@@ -45,26 +55,48 @@ def check(string):
     lista = []
     tmp = ""
     i = 0
-    for el in string:
-        if(el == "."):
-            lista.append(tmp)
-            tmp = ""
-            i = 0
-        else:
-            tmp = tmp + el
+    if getversion(string):
+        for el in string:
+            if(el == ":"):
+                lista.append(tmp)
+                tmp = ""
+                i = 0
+            else:
+                tmp = tmp + el
+                i += 1
+                if i > 4:
+                    return False
+        i = 0
+        for el in lista:
+            if(el != ""):
+                i += 1
+                if int(el,16) > int("ffff",16):
+                    return False
+        if i > 4:   
+            return False 
+        return True
+    else:
+        for el in string:
+            if(el == "."):
+                lista.append(tmp)
+                tmp = ""
+                i = 0
+            else:
+                tmp = tmp + el
+                i += 1
+                if i > 3:
+                    return False
+        i = 0
+        for el in lista:
             i += 1
-            if i > 3:
+            if int(el,10) > 255:
                 return False
-    i = 0
-    for el in lista:
-        i += 1
-        if int(el,10) > 255:
-            return False
-    if i > 4:   
-        return False 
-    return True
+        if i > 4:   
+            return False 
+        return True
 
-
+def getversion(string):
+    return (":" in string)
 
 def callback(selection,IPAdd=None,window=None,Button_connect=None):
         global done
@@ -107,17 +139,17 @@ def callback(selection,IPAdd=None,window=None,Button_connect=None):
                     try:
                         Button_connect.configure(text="Connecting...",foreground='cyan')
                         Button_connect.update()
-                        asyncio.run(connect_to_peer(lista_socket,IPAdd))
+                        asyncio.run(connect_to_peer(lista_socket,IPAdd,getversion(IPAdd)))
                         main.main(4,lista_socket[0],lista_socket[1],None,window)
                         lista_socket[0].close()
                         lista_socket[2].close()
-                    except:
+                    except Exception as err:
                         try:
                            lista_socket[0].close()
                            lista_socket[2].close()
                         except:
                             pass
-                        messagebox.showerror('Errore di connessione', 'Connessione interrotta o impossibile stabilire la connessione')
+                        messagebox.showerror('Errore di connessione', 'Connessione interrotta o impossibile stabilire la connessione' + str(err))
                         window.destroy()
                 else:
                     Button_connect.configure(text="Invalid IP address",foreground='red')
