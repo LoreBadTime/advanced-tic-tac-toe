@@ -10,4 +10,4 @@
  <li>full hard AI with different levels</li> 
  </ul>
  
-<strong>Finally online works!(partially,since i am only on a mobile hotspot and cant port forward to external IP)</strong>
+<strong>Finally online works!(you can use IPV4(may need port forwarding) or IPV6 addresses)</strong>
