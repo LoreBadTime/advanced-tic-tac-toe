@@ -3,7 +3,7 @@
  
  Features currently supported  
  <ul>
- <li>local multiplayer</li>
+ <li>local multiplayer and remote multiplayer</li>
  <li>Battle against a simple AI</li>
  <li>customizable colors(player and tab background)</li>  
  <li>counter with player colors</li>
