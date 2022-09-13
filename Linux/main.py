@@ -768,31 +768,31 @@ def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for
              
              
              
-             a = Button(master, text=texttest[0],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
+             a = Button(master, text=texttest[0],font=('arial','20'), state=NORMAL, height = 2,width = 3,activebackground=color,background=color)
              
              a.grid(row=0 ,column=0)
-             b = Button(master, text=texttest[1],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
+             b = Button(master, text=texttest[1],font=('arial','20'), state=NORMAL, height = 2,width = 3,activebackground=color,background=color)
              
              b.grid(row=0 ,column=1)
-             c = Button(master, text=texttest[2],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
+             c = Button(master, text=texttest[2],font=('arial','20'), state=NORMAL, height = 2,width = 3,activebackground=color,background=color)
              
              c.grid(row=0 ,column=2)
-             d = Button(master, text=texttest[3],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
+             d = Button(master, text=texttest[3],font=('arial','20'), state=NORMAL, height = 2,width = 3,activebackground=color,background=color)
              
              d.grid(row=1 ,column=0)
-             e = Button(master, text=texttest[4],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
+             e = Button(master, text=texttest[4],font=('arial','20'), state=NORMAL, height = 2,width = 3,activebackground=color,background=color)
              
              e.grid(row=1 ,column=1)
-             f = Button(master, text=texttest[5],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
+             f = Button(master, text=texttest[5],font=('arial','20'), state=NORMAL, height = 2,width = 3,activebackground=color,background=color)
              
              f.grid(row=1 ,column=2)
-             g = Button(master, text=texttest[6],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
+             g = Button(master, text=texttest[6],font=('arial','20'), state=NORMAL, height = 2,width = 3,activebackground=color,background=color)
              
              g.grid(row=2 ,column=0)
-             h = Button(master, text=texttest[7],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
+             h = Button(master, text=texttest[7],font=('arial','20'), state=NORMAL, height = 2,width = 3,activebackground=color,background=color)
              
              h.grid(row=2 ,column=1)
-             i = Button(master, text=texttest[8],font=('arial','20'), state=NORMAL, height = 1,width = 3,activebackground=color,background=color)
+             i = Button(master, text=texttest[8],font=('arial','20'), state=NORMAL, height = 2,width = 3,activebackground=color,background=color)
              
              i.grid(row=2 ,column=2)
              #needs developing attack mode
@@ -901,27 +901,27 @@ def main(mode,sock=None,sock1=None,turnation=None,connected_btn=None):
      #w = Frame(master)
      master.title("Tick tac toe")
      master.configure(background='black')
-     master.geometry("280x200")
-     master.resizable(False,False)
+     master.maxsize(400,300)
+     master.minsize(400,300)
      Restart = Button(master,text="Restart", command= lambda :start(master,pl1box,pl2box,mode,turnation) ,state=NORMAL,background='black',activebackground='black',foreground='white',activeforeground='white')
-     Restart.place(height=20, width=50 ,y=15, x=200)#the restart button
+     Restart.place(height=30, width=75 ,y=15, x=270)#the restart button
      pl1box = Button(master, text=pl1vitt,foreground='cyan',disabledforeground='cyan',state=DISABLED,activebackground='black',background='black' )
-     pl1box.place(height=30 ,width=30,y=169, x=15)
+     pl1box.place(height=50 ,width=50,y=243, x=13)
      pl2box = Button(master, text=pl2vitt,foreground='red',disabledforeground='red',state=DISABLED,activebackground='black',background='black' )
-     pl2box.place(height=30 ,width=30,y=169, x=130)
+     pl2box.place(height=50 ,width=50,y=243, x=170)
      checkbox4 = Button(master, text="reset counter", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx4(pl1box,pl2box) ,state=NORMAL,activebackground='black',background='black' )
-     checkbox4.place(y=135, x=200)
+     checkbox4.place(y=195, x=260)
      checktext = Button(master,text="random background",command= lambda :checkbx(checktext),font=('italic','7') ,state=NORMAL,background="black",foreground='white',activebackground='Black',activeforeground='white')
-     checktext.place(y=60, x=186)
+     checktext.place(y=60, x=260)
      checktext2 = Button(master,text="random player color",font=('italic','7'),command= lambda :checkbx2(checktext2) ,state=NORMAL,foreground='white',background="black",activebackground='Black',activeforeground='white')
-     checktext2.place(y=80, x=186)
+     checktext2.place(y=90, x=260)
      checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=NORMAL,activebackground='black',background='black' )
-     checkbox3.place(y=110, x=200) #the reset color botton
+     checkbox3.place(y=160, x=260) #the reset color botton
      start(master,pl1box,pl2box,mode,turnation)
      if(connected_btn != None):
         connected_btn.destroy()
      master.protocol("WM_DELETE_WINDOW", out)
-     master.update()
+     #master.update()
      master.mainloop()
 
      
