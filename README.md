@@ -14,7 +14,8 @@
 <h1>How to play the game?<h2>
  <ol>
  <li>Download and install Python</li>
- <li>Navigate into windows/refact folder</li>
- <li>Start menu.py</li>  
+ <li download source foder</li>
+ <li>Navigate into your operating system folder</li>
+ <li>Start menu.pyw</li>  
  <li>Enjoy</li>
  </ol>
