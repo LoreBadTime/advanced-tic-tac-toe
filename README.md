@@ -19,3 +19,10 @@
  <li>Start menu.pyw</li>  
  <li>Enjoy</li>
  </ol>
+<h2>FAQ</h2>
+ <ul>
+ <li><h3>Can i use it as a single executable?
+ </h3>
+ <p> Yes,you can use PyInstaller,a script is already provided the "Build.txt" file in each windows/linux distribution copy and paste on the terminal the command or rename to .bat/.sh</p>
+ </li>
+ </ul>
