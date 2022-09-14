@@ -277,7 +277,7 @@ def local():
     pl1box.place(height=50 ,width=50,y=273, x=20)
     pl2box = Button(master, text=pl2vitt,foreground='red',disabledforeground='red',state=DISABLED,activebackground='black',background='black' )
     pl2box.place(height=50 ,width=50,y=273, x=195)
-    Restart = Button (master,text="Restart", command= lambda :start(master,pl1box,pl2box,buttons) ,state=ACTIVE,background='black',activebackground='black',foreground='white',activeforeground='white')
+    Restart = Button (master,text="Restart", command= lambda :start(master,pl1box,pl2box,buttons) ,state=NORMAL,background='black',activebackground='black',foreground='white',activeforeground='white')
     Restart.place(height=30, width=75 ,y=30, x=295)#the restart button        
     # count turn and configure the button text
     #other buttons (see the text configured)

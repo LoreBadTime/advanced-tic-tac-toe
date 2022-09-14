@@ -278,17 +278,17 @@ def local():
     pl1box.place(height=50 ,width=50,y=243, x=13)
     pl2box = Button(master, text=pl2vitt,foreground='red',disabledforeground='red',state=DISABLED,activebackground='black',background='black' )
     pl2box.place(height=50 ,width=50,y=243, x=170)
-    Restart = Button (master,text="Restart", command= lambda :start(master,pl1box,pl2box,buttons) ,state=ACTIVE,background='black',activebackground='black',foreground='white',activeforeground='white')
+    Restart = Button (master,text="Restart", command= lambda :start(master,pl1box,pl2box,buttons) ,state=NORMAL,background='black',activebackground='black',foreground='white',activeforeground='white')
     Restart.place(height=30, width=75 ,y=15, x=270)#the restart button        
     # count turn and configure the button text
     #other buttons (see the text configured)
-    checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=ACTIVE,activebackground='black',background='black' )
+    checkbox3 = Button(master, text="reset colors", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=NORMAL,activebackground='black',background='black' )
     checkbox3.place(y=160, x=260) #the reset color botton
-    checkbox4 = Button(master, text="reset counter", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx4(pl1box,pl2box) ,state=ACTIVE,activebackground='black',background='black' )
+    checkbox4 = Button(master, text="reset counter", font=('italic','7'),foreground='white',activeforeground='white',command= lambda :checkbx4(pl1box,pl2box) ,state=NORMAL,activebackground='black',background='black' )
     checkbox4.place(y=195, x=260)
-    checktext = Button(master,text="random background",command= lambda :checkbx(checktext),font=('italic','7') ,state=ACTIVE,background="black",foreground='white',activebackground='Black',activeforeground='white')
+    checktext = Button(master,text="random background",command= lambda :checkbx(checktext),font=('italic','7') ,state=NORMAL,background="black",foreground='white',activebackground='Black',activeforeground='white')
     checktext.place(y=60, x=260)
-    checktext2 = Button(master,text="random player color",font=('italic','7'),command= lambda :checkbx2(checktext2) ,state=ACTIVE,foreground='white',background="black",activebackground='Black',activeforeground='white')
+    checktext2 = Button(master,text="random player color",font=('italic','7'),command= lambda :checkbx2(checktext2) ,state=NORMAL,foreground='white',background="black",activebackground='Black',activeforeground='white')
     checktext2.place(y=90, x=260)
     #win counters
     #spaghetti code launch
