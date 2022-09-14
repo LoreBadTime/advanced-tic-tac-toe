@@ -1,4 +1,4 @@
-# tic-tac-toe  
+<h1> tic-tac-toe </h2> 
  tkinter based tic-tac-toe  
  
  <h2>Features currently supported</h2>
@@ -11,7 +11,7 @@
  
 <strong>Finally online works!(you can use IPV4(may need port forwarding on port 11000) or IPV6 addresses)</strong>
 
-<h1>How to play the game?</h1>
+<h2>How to play the game?</h2>
  <ol>
  <li>Download and install Python</li>
  <li>Download source foder</li>
