@@ -9,7 +9,7 @@
  <li>counter with player colors</li>
  </ul>
  
-<strong>Finally online works!(you can use IPV4(may need port forwarding on port 11000) or IPV6 addresses)</strong>
+<strong>Finally online works!(you can use IPV4(may need port forwarding/firewall on port 60500) or IPV6 addresses)</strong>
 
 <h2>How to play the game?</h2>
  <ol>
