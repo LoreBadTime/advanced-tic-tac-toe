@@ -1,4 +1,4 @@
-#tic-tac-toe  
+# tic-tac-toe  
  tkinter based tic-tac-toe  
  
  <h2>Features currently supported</h2>
