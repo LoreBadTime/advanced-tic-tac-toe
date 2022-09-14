@@ -24,7 +24,7 @@ def startserver(sock_server,tupl,lista):
 async def connect_to_peer(lista_input,IPAddress,Ipversion):
     CL_ADDRESS = IPAddress#IPAddress
     MY_ADDRESS = ""
-    MY_PORT = 11000
+    MY_PORT = 60500
     lista = []
     socket.setdefaulttimeout(10)
     Ipv = socket.AF_INET
