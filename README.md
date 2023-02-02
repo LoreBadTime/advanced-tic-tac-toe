@@ -1,5 +1,5 @@
 <h1> tic-tac-toe </h2> 
- tkinter based tic-tac-toe  
+ python-tkinter based tic-tac-toe  
  
  <h2>Features currently supported</h2>
  <ul>
