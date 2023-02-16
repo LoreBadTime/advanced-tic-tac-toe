@@ -3,7 +3,28 @@ from tkinter import *
 import tkinter as tk
 from itertools import permutations
 import secrets 
-import gc
+import gc,os
+
+if os.name == 'nt':
+    mainSize = [400,330]
+    restartSize = [30,75,30,295]
+    pl1boxSize = [50,50,273,20]
+    pl2boxSize = [50,50,273,195]
+    checkbox4Size = [25,95,285,285]
+    checktextSize = [25,105,95,280]
+    checktext2Size = [25,105,125,280]
+    checkbox3Size = [25,95,153,285]
+    trisSize = 5
+else:
+    mainSize = [400,300]
+    restartSize= [30,75,15,270]
+    pl1boxSize= [50,50,243,13]
+    pl2boxSize = [50,50,243,170]
+    checkbox4Size = ['','',195,260]
+    checktextSize = ['','',60,260]
+    checktext2Size = ['','',90,260]
+    checkbox3Size = ['','',160,260]
+    trisSize = 3
 
 global socket,co,Vittoria,num,colorv,pl1vitt,pl2vitt,turn,master,turner,onlineturn
 onlineturn = None
@@ -156,6 +177,22 @@ def gameplayOnline(num):
                 pl2.append(AI)
         cont += 2
         enable(4)
+def gameplaylocal(num):
+    global cont,pl1,pl2
+    if cont == 0 or cont == 2 or cont == 4 or cont == 6 or cont == 8:
+            master.update()
+            if (turner % 2) == 0: 
+                pl1.append(num)
+            else:
+                pl2.append(num)
+    elif cont == 1 or cont == 3 or cont == 5 or cont == 7:
+            master.update()
+            if (turner % 2) == 0: 
+                pl2.append(num)
+            else:
+                pl1.append(num)
+    cont = cont + 1
+    return cont
 def gameplayeasy(num):
         global cont,pl1,pl2
         pl1.append(num)
@@ -561,6 +598,8 @@ def callback(K,num,mode):#already tryed outside
                  gameplayeasy(num)
              elif mode == 4:
                  gameplayOnline(num)
+             elif mode == 5:
+                 gameplaylocal(num)
              display()
          #win conditions (since i can't programm every possibility i used permutations)
          pl1win = list(permutations(pl1,3))
@@ -768,35 +807,35 @@ def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for
              
              
              
-             a = Button(master, text=texttest[0],font=('arial','20'), state=NORMAL, height = 2,width = 5,activebackground=color,background=color)
+             a = Button(master, text=texttest[0],font=('arial','20'), state=NORMAL, height = 2,width = trisSize,activebackground=color,background=color)
              
              a.grid(row=0 ,column=0)
-             b = Button(master, text=texttest[1],font=('arial','20'), state=NORMAL, height = 2,width = 5,activebackground=color,background=color)
+             b = Button(master, text=texttest[1],font=('arial','20'), state=NORMAL, height = 2,width = trisSize,activebackground=color,background=color)
              
              b.grid(row=0 ,column=1)
-             c = Button(master, text=texttest[2],font=('arial','20'), state=NORMAL, height = 2,width = 5,activebackground=color,background=color)
+             c = Button(master, text=texttest[2],font=('arial','20'), state=NORMAL, height = 2,width = trisSize,activebackground=color,background=color)
              
              c.grid(row=0 ,column=2)
-             d = Button(master, text=texttest[3],font=('arial','20'), state=NORMAL, height = 2,width = 5,activebackground=color,background=color)
+             d = Button(master, text=texttest[3],font=('arial','20'), state=NORMAL, height = 2,width = trisSize,activebackground=color,background=color)
              
              d.grid(row=1 ,column=0)
-             e = Button(master, text=texttest[4],font=('arial','20'), state=NORMAL, height = 2,width = 5,activebackground=color,background=color)
+             e = Button(master, text=texttest[4],font=('arial','20'), state=NORMAL, height = 2,width = trisSize,activebackground=color,background=color)
              
              e.grid(row=1 ,column=1)
-             f = Button(master, text=texttest[5],font=('arial','20'), state=NORMAL, height = 2,width = 5,activebackground=color,background=color)
+             f = Button(master, text=texttest[5],font=('arial','20'), state=NORMAL, height = 2,width = trisSize,activebackground=color,background=color)
              
              f.grid(row=1 ,column=2)
-             g = Button(master, text=texttest[6],font=('arial','20'), state=NORMAL, height = 2,width = 5,activebackground=color,background=color)
+             g = Button(master, text=texttest[6],font=('arial','20'), state=NORMAL, height = 2,width = trisSize,activebackground=color,background=color)
              
              g.grid(row=2 ,column=0)
-             h = Button(master, text=texttest[7],font=('arial','20'), state=NORMAL, height = 2,width = 5,activebackground=color,background=color)
+             h = Button(master, text=texttest[7],font=('arial','20'), state=NORMAL, height = 2,width = trisSize,activebackground=color,background=color)
              
              h.grid(row=2 ,column=1)
-             i = Button(master, text=texttest[8],font=('arial','20'), state=NORMAL, height = 2,width = 5,activebackground=color,background=color)
+             i = Button(master, text=texttest[8],font=('arial','20'), state=NORMAL, height = 2,width = trisSize,activebackground=color,background=color)
              
              i.grid(row=2 ,column=2)
              #needs developing attack mode
-             if ((turner % 2) == 1):
+             if ((turner % 2) == 1 and mode != 5):
                 tmpAI = 0
                 if mode == 1 or mode == 2:
                     tmpAI = 1 + secrets.randbelow(5)
@@ -901,23 +940,23 @@ def main(mode,sock=None,sock1=None,turnation=None,connected_btn=None):
      #w = Frame(master)
      master.title("Tick tac toe")
      master.configure(background='black')
-     master.maxsize(400,330)
-     master.minsize(400,330)
+     master.maxsize(mainSize[0],mainSize[1])
+     master.minsize(mainSize[0],mainSize[1])
      master.resizable(False,False)
      Restart = Button(master,text="Restart", command= lambda :start(master,pl1box,pl2box,mode,turnation) ,state=NORMAL,background='black',activebackground='black',foreground='white',activeforeground='white')
-     Restart.place(height=30, width=75 ,y=30, x=295)#the restart button        
+     Restart.place(height=restartSize[0], width=restartSize[1] ,y=restartSize[2], x=restartSize[3])#the restart button        
      pl1box = Button(master, text=pl1vitt,foreground='cyan',disabledforeground='cyan',state=DISABLED,activebackground='black',background='black' )
-     pl1box.place(height=50 ,width=50,y=273, x=20)
+     pl1box.place(height=pl1boxSize[0] ,width=pl1boxSize[1],y=pl1boxSize[2], x=pl1boxSize[3])
      pl2box = Button(master, text=pl2vitt,foreground='red',disabledforeground='red',state=DISABLED,activebackground='black',background='black' )
-     pl2box.place(height=50 ,width=50,y=273, x=195)
+     pl2box.place(height=pl2boxSize[0] ,width=pl2boxSize[1],y=pl2boxSize[2], x=pl2boxSize[3])
      checkbox4 = Button(master, text="reset counter", font=('italic','8'),foreground='white',activeforeground='white',command= lambda :checkbx4(pl1box,pl2box) ,state=NORMAL,activebackground='black',background='black' )
-     checkbox4.place(height=25, width=95,y=285, x=285)
+     checkbox4.place(height=checkbox4Size[0], width=checkbox4Size[1],y=checkbox4Size[2], x=checkbox4Size[3])
      checktext = Button(master,text="random background",command= lambda :checkbx(checktext),font=('italic','8') ,state=NORMAL,background="black",foreground='white',activebackground='Black',activeforeground='white')
-     checktext.place(height=25, width=105,y=95, x=280)
+     checktext.place(height=checktextSize[0], width=checktextSize[1],y=checktextSize[2], x=checktextSize[3])
      checktext2 = Button(master,text="random player color",font=('italic','8'),command= lambda :checkbx2(checktext2) ,state=NORMAL,foreground='white',background="black",activebackground='Black',activeforeground='white')
-     checktext2.place(height=25, width=105,y=125, x=280)
+     checktext2.place(height=checktext2Size[0], width=checktext2Size[1],y=checktext2Size[2], x=checktext2Size[3])
      checkbox3 = Button(master, text="reset colors", font=('italic','8'),foreground='white',activeforeground='white',command= lambda :checkbx3(checktext,checktext2,Restart,checkbox3) ,state=NORMAL,activebackground='black',background='black' )
-     checkbox3.place(height=25, width=95, y=153, x=285) #the reset color botton
+     checkbox3.place(height=checkbox3Size[0], width=checkbox3Size[1], y=checkbox3Size[2], x=checkbox3Size[3]) #the reset color botton
      start(master,pl1box,pl2box,mode,turnation)
      if(connected_btn != None):
         connected_btn.destroy()

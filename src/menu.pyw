@@ -1,9 +1,16 @@
 import socket
-import asyncio
+import asyncio,os
 import webbrowser
 import tkinter as tk
 from tkinter import DISABLED, messagebox
-import local3x3,main
+import main
+
+if os.name == 'nt':
+    ipWindowSize = "170x120"
+    mainmenuSize = "204x210"
+else:
+    ipWindowSize = "210x120"
+    mainmenuSize = "273x220"
 
 def startclient(sock,tupl):
     sock.append(socket.create_connection(tupl))
@@ -103,7 +110,7 @@ def callback(selection,IPAdd=None,window=None,Button_connect=None):
         if done == False:
             if selection == 1:
                 done = True
-                local3x3.local()
+                main.main(5)
                 done = False
             elif selection == 2:
                 done = True
@@ -121,7 +128,7 @@ def callback(selection,IPAdd=None,window=None,Button_connect=None):
                 done = True
                 IPwindow = tk.Toplevel()
                 IPwindow.configure(background='black')
-                IPwindow.geometry("170x120")
+                IPwindow.geometry(ipWindowSize)
                 IPwindow.title("Remote Play")
                 txt = tk.Text(IPwindow,bg='black',fg='white',borderwidth = 0, highlightthickness = 0)
                 txt.insert(tk.END, "Insert Opponent IP")
@@ -168,9 +175,9 @@ def mainmenu():
     root = tk.Tk()
     root.title("Tick tac toe menu")
     root.configure(background='black')
-    root.geometry("248x220")
-    root.maxsize(248,220)
-    root.minsize(248,220)
+    root.geometry(mainmenuSize)
+    print(mainmenuSize)
+    root.resizable(False,False)
     txt1="Local Multiplayer"
     txt2="Against Computer Easy"
     txt3="Against Computer Hard"
@@ -194,5 +201,4 @@ def mainmenu():
     ff.configure(command=lambda :callback(5))
     ee.place(x=10 ,y=80)
     root.mainloop()
-
 mainmenu()
