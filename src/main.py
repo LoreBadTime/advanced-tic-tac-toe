@@ -61,8 +61,8 @@ comb6 = ((1,8),(1,6),(3,4),(3,8),(7,2),(7,6),(9,2),(9,4))
 comb7 = ((2,6),(6,8),(8,4),(4,2))
 win = [(1,2,3),(4,5,6),(7,8,9),(1,4,7),(2,5,8),(3,6,9),(1,5,9),(3,5,7)]
 
-def speedwrite():#this will check for win tryes fo both AI and player
-          global AI,pl1list,pl2list,trick,ptot,pl1,pl2
+def speedwrite():#this will check for win possibilities for both AI and player
+          global AI,pl1list,pl2list,pl1,pl2
           args = [(0,3),(1,2),(2,1),(3,6),(4,4),(5,5),(6,9),(7,8),(8,7),(9,7),
                             (10,4),(11,1),(12,8),(13,2),(14,5),(15,9),(16,3),(17,6),(18,9),
                             (19,1),(20,5),(21,7),(22,5),(23,3)]
@@ -86,78 +86,54 @@ def speedwrite():#this will check for win tryes fo both AI and player
                            if (winck(win,pl2test) or winck(win,pl1test)) and check(pl1,anothernum) != True:
                                      AI.append(anothernum)
 def gameplaynormal(num):
-         global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot
-         trick = 0
+         global strategy,cont,pl1,pl2,AI,pl2list,pl1list
          pl1.append(num)
          pl1list = (list(permutations(pl1,2)))
          pl2list = (list(permutations(pl2,2)))
          cont = cont + 1
          AI = []
          strategy = True
-         if cont < 9:#now there are only specific cases   
+         if cont < 9: 
               if (winck(comb2,pl1list) or winck(comb2,pl2list)) and strategy:
                   speedwrite()
-              try:
-                  for x in AI:#this will eliminate duplicates and will prefer AI wins
+              for x in AI:#this will eliminate duplicates and will prefer AI wins
+                            
                             x = int(x)
-                            pl1a = pl1
-                            pl2b = pl2
-                            pl1a.append(x)
-                            pl2b.append(x)
-                            
-                            pl1test = (list(permutations(pl1a,3)))
-                            pl2test = (list(permutations(pl2b,3)))
-                            pl1a.remove(x)
-                            pl2b.remove(x)
-                            
+                            pl1.append(x)
+                            pl2.append(x)
+                            pl1test = (list(permutations(pl1,3)))
+                            pl2test = (list(permutations(pl2,3)))
+                            pl1.remove(x)
+                            pl2.remove(x)
                             if winck(win,pl2test) and check(pl1,x) != True:
-                                 
                                  AI = []
                                  AI.append(x)
                                  break
                             elif winck(win,pl1test) and check(pl2,x) != True:
-                                 AI = x
-                  if check(pl1,AI) or check(pl2,AI) or AI == []:   
-                               AI = 1 + secrets.randbelow(9)
-                               
-                               while check(pl1,AI) or check(pl2,AI):
-                                    AI = 1 + secrets.randbelow(9)
-              except:
-                  pass
-          
+                                 AI = [x]
+              while check(pl1,AI) or check(pl2,AI) or AI == []:
+                            AI = 1 + secrets.randbelow(9)
               try:
-                  AI = str(AI)[1]
-                  AI = int(AI)
+                  AI = (AI)[0]
               except:
                   pass
-     
-              else:
-                   if cont < 9:
-                        while check(pl1,AI) or check(pl2,AI) or AI == []:
-                               AI = 1 + secrets.randbelow(9)
-                               
-                   else:
-                        pass
               cont = cont + 1
               pl2.append(AI)
 def destroy():
     global a,b,c,d,e,f,g,h,i
-    z = [a,b,c,d,e,f,g,h,i]
-    for j in z:
+    for j in [a,b,c,d,e,f,g,h,i]:
         j.destroy()
         del j
     gc.collect() 
 def disable():
           global a,b,c,d,e,f,g,h,i
-          z = [a,b,c,d,e,f,g,h,i]
-          for y in z:
+          for y in [a,b,c,d,e,f,g,h,i]:
             if(y.cget("text") == ""):
                y.configure(state=DISABLED)
                y.update()
 def enable(Mode):
           global a,b,c,d,e,f,g,h,i
-          z = [a,b,c,d,e,f,g,h,i]
-          for y in z:
+          for y in [a,b,c,d,e,f,g,h,i]:
             if(y.cget("text") == ""):
                 y.update()
                 y.configure(state=NORMAL)
@@ -204,9 +180,7 @@ def gameplayeasy(num):
         pl2.append(AI)
         cont += 2
 def gameplayhard(num):
-         global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot
-         trick = 0
-         if cont == 0 or cont == 2 or cont == 4 or cont == 6 or cont == 8:
+                 global combinations,strategy,cont,pl1,pl2,AI,pl1list,pl2list
                  pl1.append(num)
                  pl1list = (list(permutations(pl1,2)))
                  pl2list = (list(permutations(pl2,2)))
@@ -285,44 +259,31 @@ def gameplayhard(num):
                                 AI.append(1)    
                       if (winck(comb2,pl1list) or winck(comb2,pl2list)) and strategy :
                           speedwrite()
-                      try:
-                          for x in AI:#this will eliminate duplicates and will prefer AI wins
+                      
+                      for x in AI:#this will eliminate duplicates and will prefer AI wins
                                     x = int(x)
-                                    pl1a = pl1
-                                    pl2b = pl2
-                                    pl1a.append(x)
-                                    pl2b.append(x)
-                                    pl1test = (list(permutations(pl1a,3)))
-                                    pl2test = (list(permutations(pl2b,3)))
-                                    pl1a.remove(x)
-                                    pl2b.remove(x)
+                                    pl1.append(x)
+                                    pl2.append(x)
+                                    pl1test = (list(permutations(pl1,3)))
+                                    pl2test = (list(permutations(pl2,3)))
+                                    pl1.remove(x)
+                                    pl2.remove(x)
                                     if winck(win,pl2test) and check(pl1,x) != True:
                                          AI = []
                                          AI.append(x)
                                          break
                                     elif winck(win,pl1test) and check(pl2,x) != True:
                                          AI = x
-                          if check(pl1,AI) or check(pl2,AI) or AI == []:   
+                      while check(pl1,AI) or check(pl2,AI) or AI == []:   
                                        AI = 1 + secrets.randbelow(9)
-                                       while check(pl1,AI) or check(pl2,AI):
-                                            AI = 1 + secrets.randbelow(9)
-                      except:
-                          pass
                       try:
-                          AI = str(AI)[1]
-                          AI = int(AI)
+                          AI = (AI)[0]
                       except:
                           pass
-                      else:
-                           if cont < 9:
-                                while check(pl1,AI) or check(pl2,AI) or AI == []:
-                                       AI = 1 + secrets.randbelow(9)
                       cont = cont + 1
                       pl2.append(AI)
 def gameplayhardattack(num):
-         global combinations,strategy,combo,cont,pl1,pl2,a,b,c,d,e,f,g,h,i,x,comb2,comb,AI,pl1list,pl2list,trick,ptot
-         trick = 0
-         if cont == 1 or cont == 3 or cont == 5 or cont == 7 or cont == 9:
+                 global combinations,strategy,cont,pl1,pl2,AI,pl1list,pl2list
                  pl1.append(num)
                  pl1list = (list(permutations(pl1,2)))
                  pl2list = (list(permutations(pl2,2)))
@@ -482,10 +443,7 @@ def gameplayhardattack(num):
 ##                                AI.append(1)    
                       if (winck(comb2,pl1list) or winck(comb2,pl2list)) and strategy :
                           speedwrite()
-                          
-                          
-                      try:
-                          for x in AI:#this will eliminate duplicates and will prefer AI wins
+                      for x in AI:#this will eliminate duplicates and will prefer AI wins
                                     x = int(x)
                                     pl1a = pl1
                                     pl2b = pl2
@@ -501,21 +459,12 @@ def gameplayhardattack(num):
                                          break
                                     elif winck(win,pl1test) and check(pl2,x) != True:
                                          AI = x
-                          if check(pl1,AI) or check(pl2,AI) or AI == []:   
+                      while check(pl1,AI) or check(pl2,AI) or AI == []:   
                                        AI = 1 + secrets.randbelow(9)
-                                       while check(pl1,AI) or check(pl2,AI):
-                                            AI = 1 + secrets.randbelow(9)
-                      except:
-                          pass
                       try:
-                          AI = str(AI)[1]
-                          AI = int(AI)
+                          AI = (AI)[0]
                       except:
                           pass
-                      else:
-                           if cont < 9:
-                                while check(pl1,AI) or check(pl2,AI) or AI == []:
-                                       AI = 1 + secrets.randbelow(9)
                       cont = cont + 1
                       pl2.append(AI)
 def display():
@@ -578,9 +527,8 @@ def display():
                      i.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
                      i.update()
 def callback(K,num,mode):#already tryed outside
-         global turner,combo,cont,Vittoria,co,color,pl1vitt,pl2vitt,turn,a,b,c,d,e,f,g,h,i,x,ptot,AI,pl1win,pl2win,turner,Restart
+         global turner,cont,Vittoria,co,color,pl1vitt,pl2vitt,turn,AI,pl1win,pl2win,turner,Restart
          AI = []
-         combo = False
          #disable btn when pressed more times and prevent other clicks
          if Vittoria:
                  cont = -2
@@ -704,8 +652,7 @@ def Flashyflash(window):#just color display
                      time.sleep(0.2)
                      x = x + 1        
 def check(a,b): #another check
-    if b in a:
-        return True
+    return b in a
 
 def checkbx(a): #change color background mechanism (try to unite it with the other below)
              global num,colorv
@@ -742,7 +689,7 @@ def checkbx3(a,b,c,d): #reset all colors
 def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for win possibilities
              global Restart,onlineturn
              Restart.configure(command=0,foreground='white',activeforeground='white')
-             global turner,combinations,master,ptot,a,b,c,d,e,f,g,h,i,x,Vittoria,pl1vitt,pl2vitt,turn,end,co,cont,pl1,pl2,win,color,colorv,colorc,colorpl1,colorpl2
+             global turner,combinations,master,a,b,c,d,e,f,g,h,i,x,Vittoria,pl1vitt,pl2vitt,turn,end,co,cont,pl1,pl2,win,color,colorv,colorc,colorpl1,colorpl2
      #values reset
              try:
                 destroy()
@@ -775,7 +722,6 @@ def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for
                      color='Black'
              else:
                      pass
-             ptot = []
              Vittoria = None
              end = 0
              co = 0
@@ -834,21 +780,11 @@ def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for
              i = Button(master, text=texttest[8],font=('arial','20'), state=NORMAL, height = 2,width = trisSize,activebackground=color,background=color)
              
              i.grid(row=2 ,column=2)
-             #needs developing attack mode
+
              if ((turner % 2) == 1 and mode != 5):
                 tmpAI = 0
                 if mode == 1 or mode == 2:
-                    tmpAI = 1 + secrets.randbelow(5)
-                    if tmpAI == 1:
-                         pass
-                    elif tmpAI == 2:
-                         tmpAI = 3
-                    elif tmpAI == 3:
-                         tmpAI = 5
-                    elif tmpAI == 4:
-                         tmpAI = 7
-                    elif tmpAI == 5:
-                         tmpAI = 9
+                    tmpAI = secrets.choice([1,3,5,7,9])
                 elif mode == 4:
                     try:
                         socket[1].settimeout(5.0)
@@ -918,7 +854,7 @@ def checkbx4(a,b): #reset and reconfigure counter
              b.configure(text=pl2vitt)
              master.update()
 def out():
-    global pl1vitt,pl1box,pl2vitt,pl2box,retur,master,socket
+    global pl1vitt,pl1box,pl2vitt,pl2box,retur,master
     pl1vitt=0
     pl2vitt=0
     pl1box.config(text=pl1vitt)
