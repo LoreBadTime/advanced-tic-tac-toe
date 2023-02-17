@@ -12,6 +12,11 @@ else:
     ipWindowSize = "210x120"
     mainmenuSize = "253x220"
 
+def out(window):
+    global done
+    window.destroy()
+    done = False
+
 def startclient(sock,tupl):
     sock.append(socket.create_connection(tupl))
     sock[0].setblocking(True)
@@ -138,9 +143,9 @@ def callback(selection,IPAdd=None,window=None,Button_connect=None):
                 txtInput.place(x=10 ,y=40)
                 button = tk.Button(IPwindow, text="Connect", command=lambda: callback(6,txtInput.get(),IPwindow,button),activebackground='black',background='black',foreground='green')
                 button.place(x=10 ,y=70)
-                done = False
+                IPwindow.protocol("WM_DELETE_WINDOW", lambda: out(IPwindow))
+                
             elif selection == 6:
-                done = True
                 if check(IPAdd):
                     lista_socket = []
                     try:
@@ -161,7 +166,6 @@ def callback(selection,IPAdd=None,window=None,Button_connect=None):
                 else:
                     Button_connect.configure(text="Invalid IP address",foreground='red')
                 done = False
-        return done
 
         
 def openwebpage():
@@ -176,7 +180,6 @@ def mainmenu():
     root.title("Tick tac toe menu")
     root.configure(background='black')
     root.geometry(mainmenuSize)
-    print(mainmenuSize)
     root.resizable(False,False)
     txt1="Local Multiplayer"
     txt2="Against Computer Easy"
