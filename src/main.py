@@ -471,60 +471,60 @@ def display():
          global pl1,pl2,a,b,c,d,e,f,g,h,i
          for y in pl1:
              if y == 1:
-                 a.configure(text="X", foreground=colorpl1, activeforeground=colorpl1)
+                 a.configure(text="X", foreground=colorpl1, activeforeground=colorpl1, command=0)
                  a.update()
              elif y == 2:
-                 b.configure(text="X", foreground=colorpl1, activeforeground=colorpl1)
+                 b.configure(text="X", foreground=colorpl1, activeforeground=colorpl1, command=0)
                  b.update()
              elif y == 3:
-                 c.configure(text="X", foreground=colorpl1, activeforeground=colorpl1)
+                 c.configure(text="X", foreground=colorpl1, activeforeground=colorpl1, command=0)
                  c.update()
              elif y == 4:
-                 d.configure(text="X", foreground=colorpl1, activeforeground=colorpl1)
+                 d.configure(text="X", foreground=colorpl1, activeforeground=colorpl1, command=0)
                  d.update()
              elif y == 5:
-                 e.configure(text="X", foreground=colorpl1, activeforeground=colorpl1)
+                 e.configure(text="X", foreground=colorpl1, activeforeground=colorpl1, command=0)
                  e.update()
              elif y == 6:
-                 f.configure(text="X", foreground=colorpl1, activeforeground=colorpl1)
+                 f.configure(text="X", foreground=colorpl1, activeforeground=colorpl1, command=0)
                  f.update()
              elif y == 7:
-                 g.configure(text="X", foreground=colorpl1, activeforeground=colorpl1)
+                 g.configure(text="X", foreground=colorpl1, activeforeground=colorpl1, command=0)
                  g.update()
              elif y == 8:
-                 h.configure(text="X", foreground=colorpl1, activeforeground=colorpl1)
+                 h.configure(text="X", foreground=colorpl1, activeforeground=colorpl1, command=0)
                  h.update()
              elif y == 9:
-                 i.configure(text="X", foreground=colorpl1, activeforeground=colorpl1)
+                 i.configure(text="X", foreground=colorpl1, activeforeground=colorpl1, command=0)
                  i.update()
          if cont <= 8 and Vittoria != True:
              for z in pl2:
                  if z == 1:
-                     a.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
+                     a.configure(text="O", foreground=colorpl2, activeforeground=colorpl2, command=0)
                      a.update()
                  elif z == 2:
-                     b.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
+                     b.configure(text="O", foreground=colorpl2, activeforeground=colorpl2, command=0)
                      b.update()
                  elif z == 3:
-                     c.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
+                     c.configure(text="O", foreground=colorpl2, activeforeground=colorpl2, command=0)
                      c.update()
                  elif z == 4:
-                     d.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
+                     d.configure(text="O", foreground=colorpl2, activeforeground=colorpl2, command=0)
                      d.update()
                  elif z == 5:
-                     e.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
+                     e.configure(text="O", foreground=colorpl2, activeforeground=colorpl2, command=0)
                      e.update()
                  elif z == 6:
-                     f.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
+                     f.configure(text="O", foreground=colorpl2, activeforeground=colorpl2, command=0)
                      f.update()
                  elif z == 7:
-                     g.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
+                     g.configure(text="O", foreground=colorpl2, activeforeground=colorpl2, command=0)
                      g.update()
                  elif z == 8:
-                     h.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
+                     h.configure(text="O", foreground=colorpl2, activeforeground=colorpl2, command=0)
                      h.update()
                  elif z == 9:
-                     i.configure(text="O", foreground=colorpl2, activeforeground=colorpl2)
+                     i.configure(text="O", foreground=colorpl2, activeforeground=colorpl2, command=0)
                      i.update()
 def callback(K,num,mode):#already tryed outside
          global turner,cont,Vittoria,co,color,pl1vitt,pl2vitt,turn,AI,pl1win,pl2win,turner,Restart
@@ -810,25 +810,6 @@ def start(l,a1,a2,mode,online=None,intnum=None): #main play and reset values for
                     tmpAI = 1 + secrets.randbelow(9)
                 pl2.append(tmpAI)
                 cont += 1
-                for z in pl2:
-                    if z == 1:
-                        a.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
-                    elif z == 2:
-                        b.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
-                    elif z == 3:
-                        c.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
-                    elif z == 4:
-                        d.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
-                    elif z == 5:
-                        e.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
-                    elif z == 6:
-                        f.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
-                    elif z == 7:
-                        g.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
-                    elif z == 8:
-                        h.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
-                    elif z == 9:
-                        i.configure(text="O", foreground=colorpl2, activeforeground=colorpl2,command=0)
                 display()
              if online == 1:
                 online = 0
