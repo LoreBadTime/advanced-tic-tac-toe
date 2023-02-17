@@ -14,8 +14,7 @@
 <h2>How to play the game?</h2>
  <ol>
  <li>Download and install Python</li>
- <li>Download source foder</li>
- <li>Navigate into your operating system folder</li>
+ <li>Download source foder and navigate into src folder</li>
  <li>Start menu.pyw</li>  
  <li>Enjoy</li>
  </ol>
