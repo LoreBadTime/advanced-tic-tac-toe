@@ -10,7 +10,7 @@ if os.name == 'nt':
     mainmenuSize = "204x210"
 else:
     ipWindowSize = "210x120"
-    mainmenuSize = "273x220"
+    mainmenuSize = "253x220"
 
 def startclient(sock,tupl):
     sock.append(socket.create_connection(tupl))
