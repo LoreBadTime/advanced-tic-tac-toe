@@ -4,7 +4,7 @@
  <h2>Features currently supported</h2>
  <ul>
  <li>local multiplayer and remote multiplayer</li>
- <li>Battle against an AI</li>
+ <li>Battle against Computer (3 different modes)</li>
  <li>customizable colors(player and background)</li>  
  <li>counter with player colors</li>
  </ul>
